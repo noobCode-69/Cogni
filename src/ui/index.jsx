@@ -1,5 +1,7 @@
+import Tray from "./components/Tray";
+
 const App = () => {
-  return <div>Hello world </div>;
+  return <Tray />;
 };
 
 export default App;
