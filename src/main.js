@@ -14,7 +14,8 @@ let mainWindow;
 const createWindow = () => {
   const browserWindowOptions = getBrowserWindowOptions();
   mainWindow = new CustomBrowserWindow(browserWindowOptions);
-
+  mainWindow.setHiddenInMissionControl(true);
+  mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
   } else {

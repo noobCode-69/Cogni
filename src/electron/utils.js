@@ -9,14 +9,13 @@ export function getBrowserWindowOptions() {
   const y = 45;
 
   return {
+    type: "panel",
     width: windowWidth,
     height: windowHeight,
     x,
     y,
     minWidth: undefined,
     maxWidth: undefined,
-    show: true,
-    alwaysOnTop: true,
     frame: false,
     fullscreenable: false,
     transparent: true,
