@@ -1,27 +1,10 @@
 const Tray = () => {
   return (
     <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-        height: "100vh",
-      }}
+      style={{ border: "1px solid red" }}
+      className="h-10 w-[480px]  flex items-center justify-center rounded bg-red-400"
     >
-      <div
-        style={{
-          height: "40px",
-          width: "480px",
-          border: "1px solid red",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          borderRadius: "4px",
-        }}
-      >
-        Hello world
-      </div>
+      Hello world
     </div>
   );
 };
