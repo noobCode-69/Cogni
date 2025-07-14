@@ -24,7 +24,7 @@ export function getBrowserWindowOptions() {
     hasShadow: false,
     focusable: true,
     webPreferences: {
-      preload: path.join(__dirname, "../scripts/preload.js"),
+      preload: path.join(__dirname, "./preload.js"),
     },
   };
 }

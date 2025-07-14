@@ -3,7 +3,7 @@ import path from "node:path";
 import started from "electron-squirrel-startup";
 
 import { getBrowserWindowOptions } from "./electron/utils";
-import CustomBrowserWindow from "./electron/BrowserWindow";
+import CustomBrowserWindow from "./electron/helpers/BrowserHelper";
 
 if (started) {
   app.quit();
