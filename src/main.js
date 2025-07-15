@@ -45,5 +45,12 @@ app.on("window-all-closed", () => {
 });
 
 ipcMain.on(EVENT_CONSTANTS.REPOSITION_MAIN_WINDOW, (_event, direction) => {
-  console.log("Saving settings:", direction);
+  const mainWindow = BrowserWindow.getAllWindows()[0];
+  if (!mainWindow) return;
+
+  const [x, y] = mainWindow.getPosition();
+  const step = 100;
+  const newX = x + direction * step;
+
+  mainWindow.setPosition(newX, y, true);
 });

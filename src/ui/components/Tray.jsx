@@ -1,11 +1,9 @@
-import { EVENT_CONSTANTS } from "../../electron/renderUtils";
+import { Button } from "./Button";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const Tray = () => {
-  const onClick = (direction) => {
-    window.electronAPI.repositionMainWindow(
-      EVENT_CONSTANTS.REPOSITION_MAIN_WINDOW,
-      direction
-    );
+  const handleOnClick = (direction) => {
+    window.electronAPI.repositionMainWindow(direction);
   };
 
   return (
@@ -15,12 +13,12 @@ const Tray = () => {
       }}
       className="h-[100%] w-[100%] bg-black/40 flex items-center justify-center rounded-lg "
     >
-      <button className="m-2" onClick={() => onClick(-1)}>
-        LEFT
-      </button>
-      <button className="m-2" onClick={() => onClick(1)}>
-        RIGHT
-      </button>
+      <Button variant="hover" onClick={() => handleOnClick(-1)}>
+        <ArrowLeft size={14} />
+      </Button>
+      <Button variant="hover" onClick={() => handleOnClick(1)}>
+        <ArrowRight size={14} />
+      </Button>
     </div>
   );
 };
