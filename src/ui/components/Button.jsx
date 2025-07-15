@@ -7,7 +7,7 @@ export const Button = ({ variant = "default", onClick, children }) => {
   if (variant === "default") {
     background = "transparent";
   } else if (variant === "hover") {
-    background = isHovered ? "#4a4a4a" : "transparent";
+    background = isHovered ? "rgba(74, 74, 74, 0.5)" : "transparent";
   }
 
   return (
