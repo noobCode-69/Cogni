@@ -1,9 +1,8 @@
-import { app } from "electron";
+import { app, BrowserWindow } from "electron";
 import path from "node:path";
 import started from "electron-squirrel-startup";
 
 import { getBrowserWindowOptions } from "./electron/utils";
-import CustomBrowserWindow from "./electron/helpers/BrowserHelper";
 
 if (started) {
   app.quit();
@@ -13,9 +12,10 @@ let mainWindow;
 
 const createWindow = () => {
   const browserWindowOptions = getBrowserWindowOptions();
-  mainWindow = new CustomBrowserWindow(browserWindowOptions);
+  mainWindow = new BrowserWindow(browserWindowOptions);
   mainWindow.setHiddenInMissionControl(true);
   mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+  mainWindow.setResizable(false);
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
   } else {
