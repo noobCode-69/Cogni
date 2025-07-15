@@ -1,10 +1,10 @@
-import { app, BrowserWindow } from "electron";
+import { globalShortcut, app, BrowserWindow } from "electron";
 import path from "node:path";
 import started from "electron-squirrel-startup";
 import { ipcMain } from "electron";
 
 import { getBrowserWindowOptions } from "./electron/electronUtils";
-import { EVENT_CONSTANTS } from "./electron/renderUtils";
+import { EVENT_CONSTANTS, keyboardShortcuts } from "./electron/renderUtils";
 
 if (started) {
   app.quit();
@@ -25,7 +25,11 @@ const createWindow = () => {
       path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
     );
   }
-  mainWindow.webContents.openDevTools({ mode: "detach" }); // or 'undocked', 'bottom', 'right'
+  mainWindow.webContents.on("did-finish-load", () => {
+    registerShortcuts();
+  });
+
+  // mainWindow.webContents.openDevTools({ mode: "detach" });
 };
 
 app.whenReady().then(() => {
@@ -54,3 +58,30 @@ ipcMain.on(EVENT_CONSTANTS.REPOSITION_MAIN_WINDOW, (_event, direction) => {
 
   mainWindow.setPosition(newX, y, true);
 });
+
+function registerShortcuts() {
+  const context = {
+    window: mainWindow,
+  };
+
+  keyboardShortcuts.forEach(
+    ({ accelerator, action, sendToRenderer, handler }) => {
+      const success = globalShortcut.register(accelerator, () => {
+        if (sendToRenderer) {
+          mainWindow.webContents.send(
+            EVENT_CONSTANTS.SEND_KEYBOARD_SHORTCUT_TO_RENDERER,
+            action
+          );
+        } else {
+          if (typeof handler === "function") {
+            handler(context);
+          }
+        }
+      });
+
+      if (!success) {
+        console.warn(`Failed to register shortcut: ${accelerator}`);
+      }
+    }
+  );
+}
