@@ -1,8 +1,10 @@
 import { app, BrowserWindow } from "electron";
 import path from "node:path";
 import started from "electron-squirrel-startup";
+import { ipcMain } from "electron";
 
-import { getBrowserWindowOptions } from "./electron/utils";
+import { getBrowserWindowOptions } from "./electron/electronUtils";
+import { EVENT_CONSTANTS } from "./electron/renderUtils";
 
 if (started) {
   app.quit();
@@ -23,6 +25,7 @@ const createWindow = () => {
       path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
     );
   }
+  mainWindow.webContents.openDevTools({ mode: "detach" }); // or 'undocked', 'bottom', 'right'
 };
 
 app.whenReady().then(() => {
@@ -39,4 +42,8 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
+});
+
+ipcMain.on(EVENT_CONSTANTS.REPOSITION_MAIN_WINDOW, (_event, direction) => {
+  console.log("Saving settings:", direction);
 });

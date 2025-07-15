@@ -1,4 +1,13 @@
+import { EVENT_CONSTANTS } from "../../electron/renderUtils";
+
 const Tray = () => {
+  const onClick = (direction) => {
+    window.electronAPI.repositionMainWindow(
+      EVENT_CONSTANTS.REPOSITION_MAIN_WINDOW,
+      direction
+    );
+  };
+
   return (
     <div
       style={{
@@ -6,7 +15,12 @@ const Tray = () => {
       }}
       className="h-[100%] w-[100%] bg-black/40 flex items-center justify-center rounded-lg "
     >
-      Ask
+      <button className="m-2" onClick={() => onClick(-1)}>
+        LEFT
+      </button>
+      <button className="m-2" onClick={() => onClick(1)}>
+        RIGHT
+      </button>
     </div>
   );
 };
