@@ -1,7 +1,17 @@
 import { useState } from "react";
 
-export const Button = ({ variant = "default", onClick, children }) => {
+export const Button = ({ variant = "default", onClick, onHover, children }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = (e) => {
+    setIsHovered(true);
+    if (onHover) onHover(e, true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    if (onHover) onHover(e, false);
+  };
 
   let background;
   if (variant === "default") {
@@ -12,8 +22,8 @@ export const Button = ({ variant = "default", onClick, children }) => {
 
   return (
     <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       onClick={onClick}
       style={{
         background,
