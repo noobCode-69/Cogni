@@ -15,7 +15,7 @@ const Tray = () => {
       style={{
         border: "0.9px solid #3a3a3a",
       }}
-      className="h-[100%] w-[100%] bg-black/40 flex items-center  justify-center rounded-lg "
+      className="h-[100%] w-[100%] bg-black/60 flex items-center  justify-center rounded-lg "
     >
       <Button variant="hover">
         <div
