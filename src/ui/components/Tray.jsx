@@ -1,9 +1,13 @@
 import { Button } from "./Button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { EllipsisVertical } from "lucide-react";
+import { Command } from "lucide-react";
+import { CornerDownLeft } from "lucide-react";
+import { Slash } from "lucide-react";
+import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 
 const Tray = () => {
-  const handleOnClick = (direction) => {
-    window.electronAPI.repositionMainWindow(direction);
+  const handleOnClick = (event, payload) => {
+    window.electronAPI.sendRendererEvent(event, payload);
   };
 
   return (
@@ -11,13 +15,88 @@ const Tray = () => {
       style={{
         border: "0.9px solid #4a4a4a",
       }}
-      className="h-[100%] w-[100%] bg-black/40 flex items-center justify-center rounded-lg "
+      className="h-[100%] w-[100%] bg-black/40 flex items-center  justify-center rounded-lg "
     >
-      <Button variant="hover" onClick={() => handleOnClick(-1)}>
-        <ArrowLeft size={14} />
+      <Button variant="hover">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+          }}
+        >
+          Ask
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+            }}
+          >
+            <div
+              style={{
+                background: "#4a4a4a",
+                padding: "4px",
+                borderRadius: "4px",
+              }}
+            >
+              <Command size={10} />
+            </div>
+            <div
+              style={{
+                background: "#4a4a4a",
+                padding: "4px",
+                borderRadius: "4px",
+              }}
+            >
+              <CornerDownLeft size={10} />
+            </div>
+          </div>
+        </div>
       </Button>
-      <Button variant="hover" onClick={() => handleOnClick(1)}>
-        <ArrowRight size={14} />
+      <Button
+        variant="hover"
+        onClick={() => handleOnClick(EVENT_CONSTANTS.HIDE_APP)}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+          }}
+        >
+          Hide
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+            }}
+          >
+            <div
+              style={{
+                background: "#4a4a4a",
+                padding: "4px",
+                borderRadius: "4px",
+              }}
+            >
+              <Command size={10} />
+            </div>
+            <div
+              style={{
+                background: "#4a4a4a",
+                padding: "4px",
+                borderRadius: "4px",
+                transform: "rotateY(180deg)",
+              }}
+            >
+              <Slash size={10} />
+            </div>
+          </div>
+        </div>
+      </Button>
+      <Button variant="transparent">
+        <EllipsisVertical size={14} />
       </Button>
     </div>
   );

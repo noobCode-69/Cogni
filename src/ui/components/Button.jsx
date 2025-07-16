@@ -17,7 +17,7 @@ export const Button = ({ variant = "default", onClick, children }) => {
       onClick={onClick}
       style={{
         background,
-        padding: "4px 6px",
+        padding: "6px 10px",
         borderRadius: "4px",
         color: "#fff",
         cursor: "pointer",

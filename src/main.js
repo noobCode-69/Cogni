@@ -49,14 +49,16 @@ app.on("window-all-closed", () => {
 });
 
 ipcMain.on(EVENT_CONSTANTS.REPOSITION_MAIN_WINDOW, (_event, direction) => {
-  const mainWindow = BrowserWindow.getAllWindows()[0];
-  if (!mainWindow) return;
-
   const [x, y] = mainWindow.getPosition();
   const step = 100;
   const newX = x + direction * step;
-
   mainWindow.setPosition(newX, y, true);
+});
+
+ipcMain.on(EVENT_CONSTANTS.HIDE_APP, (_event, direction) => {
+  if (mainWindow.isVisible() && !mainWindow.isMinimized()) {
+    mainWindow.hide();
+  }
 });
 
 function registerShortcuts() {

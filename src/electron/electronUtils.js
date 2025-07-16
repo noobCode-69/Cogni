@@ -3,8 +3,8 @@ import path from "path";
 
 export function getBrowserWindowOptions() {
   const { width: screenWidth } = screen.getPrimaryDisplay().bounds;
-  const windowWidth = 490;
-  const windowHeight = 42;
+  const windowWidth = 237;
+  const windowHeight = 50;
   const x = Math.round((screenWidth - windowWidth) / 2);
   const y = 45;
 
