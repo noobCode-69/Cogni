@@ -8,7 +8,7 @@ export const Button = ({ variant = "default", onClick, onHover, children }) => {
     if (onHover) onHover(e, true);
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (e) => {
     setIsHovered(false);
     if (onHover) onHover(e, false);
   };

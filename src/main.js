@@ -55,7 +55,7 @@ ipcMain.on(EVENT_CONSTANTS.REPOSITION_MAIN_WINDOW, (_event, direction) => {
   mainWindow.setPosition(newX, y, true);
 });
 
-ipcMain.on(EVENT_CONSTANTS.HIDE_APP, (_event, direction) => {
+ipcMain.on(EVENT_CONSTANTS.HIDE_APP, (_event) => {
   if (mainWindow.isVisible() && !mainWindow.isMinimized()) {
     mainWindow.hide();
   }

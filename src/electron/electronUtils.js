@@ -14,8 +14,6 @@ export function getBrowserWindowOptions() {
     height: windowHeight,
     x,
     y,
-    minWidth: undefined,
-    maxWidth: undefined,
     frame: false,
     fullscreenable: false,
     transparent: true,
