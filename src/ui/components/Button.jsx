@@ -27,7 +27,7 @@ export const Button = ({ variant = "default", onClick, onHover, children }) => {
       onClick={onClick}
       style={{
         background,
-        padding: "6px 10px",
+        padding: "5px 10px",
         borderRadius: "4px",
         color: "#fff",
         cursor: "pointer",

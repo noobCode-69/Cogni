@@ -40,7 +40,7 @@ const Tray = () => {
                 borderRadius: "4px",
               }}
             >
-              <Command size={10} />
+              <Command size={9} />
             </div>
             <div
               style={{
@@ -49,7 +49,7 @@ const Tray = () => {
                 borderRadius: "4px",
               }}
             >
-              <CornerDownLeft size={10} />
+              <CornerDownLeft size={9} />
             </div>
           </div>
         </div>
@@ -80,7 +80,7 @@ const Tray = () => {
                 borderRadius: "4px",
               }}
             >
-              <Command size={10} />
+              <Command size={9} />
             </div>
             <div
               style={{
@@ -90,7 +90,7 @@ const Tray = () => {
                 transform: "rotateY(180deg)",
               }}
             >
-              <Slash size={10} />
+              <Slash size={9} />
             </div>
           </div>
         </div>
