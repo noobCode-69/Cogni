@@ -34,7 +34,7 @@ const ShortcutGroup = styled.div`
 `;
 
 const ShortcutKey = styled.div`
-  background: #3a3a3a;
+  background: #2a2a2a;
   padding: 4px;
   border-radius: 4px;
   display: flex;
