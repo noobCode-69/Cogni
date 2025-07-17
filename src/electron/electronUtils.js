@@ -19,7 +19,6 @@ export function getBrowserWindowOptions() {
     transparent: true,
     backgroundColor: "#00000000",
     hasShadow: false,
-    focusable: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },

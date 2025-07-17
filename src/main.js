@@ -18,6 +18,7 @@ const createWindow = () => {
   mainWindow.setHiddenInMissionControl(true);
   mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
   mainWindow.setResizable(false);
+  mainWindow.setIgnoreMouseEvents(true, { forward: true });
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
   } else {
@@ -58,6 +59,14 @@ ipcMain.on(EVENT_CONSTANTS.REPOSITION_MAIN_WINDOW, (_event, direction) => {
 ipcMain.on(EVENT_CONSTANTS.HIDE_APP, (_event) => {
   if (mainWindow.isVisible() && !mainWindow.isMinimized()) {
     mainWindow.hide();
+  }
+});
+
+ipcMain.on(EVENT_CONSTANTS.TOGGLE_MOUSE_EVENTS, (_event, payload) => {
+  if (payload === "ENTER") {
+    mainWindow.setIgnoreMouseEvents(false);
+  } else {
+    mainWindow.setIgnoreMouseEvents(true, { forward: true });
   }
 });
 

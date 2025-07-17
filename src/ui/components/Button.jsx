@@ -1,16 +1,30 @@
 import { useState } from "react";
+import { useMouseHover } from "../hooks/useMoveOver";
+import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 
-export const Button = ({ variant = "default", onClick, onHover, children }) => {
+export const Button = ({ variant = "default", onClick, children }) => {
+  const hoverRef = useMouseHover(
+    () => {
+      window.electronAPI.sendRendererEvent(
+        EVENT_CONSTANTS.TOGGLE_MOUSE_EVENTS,
+        "ENTER"
+      );
+    },
+    () => {
+      window.electronAPI.sendRendererEvent(
+        EVENT_CONSTANTS.TOGGLE_MOUSE_EVENTS,
+        "EXIT"
+      );
+    }
+  );
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = (e) => {
     setIsHovered(true);
-    if (onHover) onHover(e, true);
   };
 
   const handleMouseLeave = (e) => {
     setIsHovered(false);
-    if (onHover) onHover(e, false);
   };
 
   let background;
@@ -22,6 +36,7 @@ export const Button = ({ variant = "default", onClick, onHover, children }) => {
 
   return (
     <div
+      ref={hoverRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
