@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useMouseForwarding } from "../hooks/useMoveForwarding";
+import { useMouseForwarding } from "../hooks/useMouseForwarding";
 
 const StyledButton = styled.div`
   background: transparent;
@@ -17,7 +17,7 @@ const StyledButton = styled.div`
   }
 `;
 
-export const Button = ({ onClick, children, className }) => {
+const Button = ({ onClick, children, className }) => {
   const ref = useMouseForwarding();
 
   return (
@@ -26,3 +26,5 @@ export const Button = ({ onClick, children, className }) => {
     </StyledButton>
   );
 };
+
+export default Button;

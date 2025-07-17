@@ -1,4 +1,4 @@
-import { Button } from "./Button";
+import Button from "../primitives/Button";
 import { Command, CornerDownLeft } from "lucide-react";
 import styled from "styled-components";
 import { Slash } from "lucide-react";
