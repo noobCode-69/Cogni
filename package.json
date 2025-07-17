@@ -2,7 +2,7 @@
   "name": "cogni",
   "productName": "cogni",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Cheat like a pro",
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -33,9 +33,9 @@
   "dependencies": {
     "@vitejs/plugin-react": "^4.6.0",
     "electron-squirrel-startup": "^1.0.1",
-    "frosted-ui": "^0.0.1-canary.77",
     "lucide-react": "^0.525.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "styled-components": "^6.1.19"
   }
 }
