@@ -23,7 +23,7 @@ export class MainWindowManager {
       backgroundColor: "#00000000",
       hasShadow: false,
       webPreferences: {
-        preload: path.join(__dirname, "../preload.js"),
+        preload: path.join(__dirname, "preload.js"),
       },
     };
   }

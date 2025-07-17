@@ -1,6 +1,6 @@
 import { app, ipcMain } from "electron";
-import { MainWindowManager } from "./MainWindowManager.js";
-import { ShortcutManager } from "./ShortcutManager.js";
+import { MainWindowManager } from "./mainWindowManager.js";
+import { ShortcutManager } from "./shortCutManager.js";
 import { EVENT_CONSTANTS } from "../renderUtils.js";
 
 export class AppManager {
