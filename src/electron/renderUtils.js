@@ -8,7 +8,7 @@ export const keyboardShortcuts = [
   {
     accelerator: "Command+\\",
     action: "CMD_BACKSLASH",
-    sendToRennpderer: false,
+    sendToRenderer: false,
     handler: ({ window }) => {
       if (window.isVisible() && !window.isMinimized()) {
         window.hide();
