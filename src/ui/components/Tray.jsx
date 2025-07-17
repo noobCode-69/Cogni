@@ -43,10 +43,12 @@ const ShortcutKey = styled.div`
 `;
 
 const SolidButton = styled(Button)`
-  background-color: #1373e6;
-  color: white;
+  background-color: rgba(19, 115, 230, 0.7);
+  color: rgba(255, 255, 255, 0.95);
+
   &:hover {
-    background-color: #0056b3;
+    background-color: rgba(0, 86, 179, 0.7);
+    color: rgba(255, 255, 255, 0.95);
   }
 `;
 
