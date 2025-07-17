@@ -49,13 +49,6 @@ app.on("window-all-closed", () => {
   }
 });
 
-ipcMain.on(EVENT_CONSTANTS.REPOSITION_MAIN_WINDOW, (_event, direction) => {
-  const [x, y] = mainWindow.getPosition();
-  const step = 100;
-  const newX = x + direction * step;
-  mainWindow.setPosition(newX, y, true);
-});
-
 ipcMain.on(EVENT_CONSTANTS.HIDE_APP, (_event) => {
   if (mainWindow.isVisible() && !mainWindow.isMinimized()) {
     mainWindow.hide();

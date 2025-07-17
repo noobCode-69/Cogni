@@ -9,10 +9,7 @@ const App = () => {
     });
   }, []);
   return (
-    <div
-      style={{ padding: "2px" }}
-      className="flex items-center justify-center w-full h-screen"
-    >
+    <div>
       <Tray />
     </div>
   );

@@ -13,9 +13,16 @@ const Tray = () => {
   return (
     <div
       style={{
+        position: "fixed",
+        top: "40px",
+        left: "50%",
+        transform: "translateX(-50%)",
         border: "0.9px solid #3a3a3a",
+        borderRadius: "4px",
+        width: "fit-content",
+        padding: "4px",
       }}
-      className="h-[100%] w-[100%] bg-black/60 flex items-center  justify-center rounded-lg "
+      className="bg-black/60 flex items-center  justify-center rounded-lg "
     >
       <Button variant="hover">
         <div
