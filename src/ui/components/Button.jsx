@@ -1,8 +1,8 @@
-import { useMouseHover } from "../hooks/useMoveOver";
 import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 
 import styled from "styled-components";
 import { electronAPI } from "../utils";
+import { useMouseForwarding } from "../hooks/useMoveForwarding";
 
 const StyledButton = styled.div`
   background: transparent;
@@ -21,23 +21,10 @@ const StyledButton = styled.div`
 `;
 
 export const Button = ({ onClick, children }) => {
-  const hoverRef = useMouseHover(
-    () => {
-      electronAPI.sendRendererEvent(
-        EVENT_CONSTANTS.TOGGLE_MOUSE_EVENTS,
-        "ENTER"
-      );
-    },
-    () => {
-      electronAPI.sendRendererEvent(
-        EVENT_CONSTANTS.TOGGLE_MOUSE_EVENTS,
-        "EXIT"
-      );
-    }
-  );
+  const ref = useMouseForwarding();
 
   return (
-    <StyledButton onClick={onClick} ref={hoverRef}>
+    <StyledButton onClick={onClick} ref={ref}>
       {children}
     </StyledButton>
   );

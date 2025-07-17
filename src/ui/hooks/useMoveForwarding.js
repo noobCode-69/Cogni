@@ -1,15 +1,19 @@
 import { useRef, useEffect } from "react";
+import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 
-export function useMouseHover(onEnter, onLeave) {
+export function useMouseForwarding() {
   const ref = useRef();
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
 
-    const handleMouseEnter = () => onEnter();
-    const handleMouseLeave = () => onLeave();
-
+    const handleMouseEnter = () => {
+      electronAPI.sendRendererEvent(EVENT_CONSTANTS.MOUSE_FORWARDING, "ENTER");
+    };
+    const handleMouseLeave = () => {
+      electronAPI.sendRendererEvent(EVENT_CONSTANTS.MOUSE_FORWARDING, "EXIT");
+    };
     node.addEventListener("mouseenter", handleMouseEnter);
     node.addEventListener("mouseleave", handleMouseLeave);
 
@@ -17,7 +21,7 @@ export function useMouseHover(onEnter, onLeave) {
       node.removeEventListener("mouseenter", handleMouseEnter);
       node.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [onEnter, onLeave]);
+  }, []);
 
   return ref;
 }

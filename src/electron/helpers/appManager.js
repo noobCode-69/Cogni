@@ -38,7 +38,8 @@ export class AppManager {
       this.mainWindowManager.toggleVisibility();
     });
 
-    ipcMain.on(EVENT_CONSTANTS.TOGGLE_MOUSE_EVENTS, (_event, payload) => {
+    ipcMain.on(EVENT_CONSTANTS.MOUSE_FORWARDING, (_event, payload) => {
+      console.log(payload)
       this.mainWindowManager.toggleMouseEvents(payload);
     });
   }
