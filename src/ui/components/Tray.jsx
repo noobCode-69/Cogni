@@ -5,7 +5,6 @@ import { Slash } from "lucide-react";
 import { EllipsisVertical } from "lucide-react";
 import { electronAPI } from "../utils";
 import { EVENT_CONSTANTS } from "../../electron/renderUtils";
-
 const FixedCenteredContainer = styled.div`
   position: fixed;
   top: 40px;
@@ -17,8 +16,9 @@ const FixedCenteredContainer = styled.div`
   padding: 4px;
   background: rgba(0, 0, 0, 0.6);
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
+  gap: 4px;
 `;
 
 const ButtonContent = styled.div`
@@ -42,9 +42,22 @@ const ShortcutKey = styled.div`
   justify-content: center;
 `;
 
+const SolidButton = styled(Button)`
+  background-color: #1373e6;
+  color: white;
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
 const Tray = () => {
   return (
     <FixedCenteredContainer>
+      <SolidButton>
+        <ButtonContent>
+          <span>API Keys</span>
+        </ButtonContent>
+      </SolidButton>
       <Button>
         <ButtonContent>
           <span>Ask</span>

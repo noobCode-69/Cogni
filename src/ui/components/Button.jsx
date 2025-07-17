@@ -1,7 +1,4 @@
-import { EVENT_CONSTANTS } from "../../electron/renderUtils";
-
 import styled from "styled-components";
-import { electronAPI } from "../utils";
 import { useMouseForwarding } from "../hooks/useMoveForwarding";
 
 const StyledButton = styled.div`
@@ -20,11 +17,11 @@ const StyledButton = styled.div`
   }
 `;
 
-export const Button = ({ onClick, children }) => {
+export const Button = ({ onClick, children, className }) => {
   const ref = useMouseForwarding();
 
   return (
-    <StyledButton onClick={onClick} ref={ref}>
+    <StyledButton onClick={onClick} ref={ref} className={className}>
       {children}
     </StyledButton>
   );
