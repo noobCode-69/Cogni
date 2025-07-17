@@ -8,11 +8,7 @@ const App = () => {
       console.log("Received from main:", data);
     });
   }, []);
-  return (
-    <div>
-      <Tray />
-    </div>
-  );
+  return <Tray />;
 };
 
 export default App;

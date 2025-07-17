@@ -30,7 +30,7 @@ const createWindow = () => {
     registerShortcuts();
   });
 
-  // mainWindow.webContents.openDevTools({ mode: "detach" });
+  mainWindow.webContents.openDevTools({ mode: "detach" });
 };
 
 app.whenReady().then(() => {

@@ -1,1 +1,6 @@
-@import "tailwindcss";
+.frosted-ui {
+  --default-font-family: "Inter", sans-serif;
+}
+body {
+  background-color: transparent !important;
+}

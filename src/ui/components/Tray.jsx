@@ -4,6 +4,7 @@ import { Command } from "lucide-react";
 import { CornerDownLeft } from "lucide-react";
 import { Slash } from "lucide-react";
 import { EVENT_CONSTANTS } from "../../electron/renderUtils";
+import { Text } from "frosted-ui";
 
 const Tray = () => {
   const handleOnClick = (event, payload) => {
@@ -21,8 +22,12 @@ const Tray = () => {
         borderRadius: "4px",
         width: "fit-content",
         padding: "4px",
+        background: "rgba(0,0,0,0.6)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: "4px",
       }}
-      className="bg-black/60 flex items-center  justify-center rounded-lg "
     >
       <Button variant="hover">
         <div
@@ -32,7 +37,7 @@ const Tray = () => {
             gap: "8px",
           }}
         >
-          Ask
+          <Text size="1">Ask</Text>
           <div
             style={{
               display: "flex",
@@ -72,7 +77,7 @@ const Tray = () => {
             gap: "8px",
           }}
         >
-          Hide
+          <Text size="1">Hide</Text>
           <div
             style={{
               display: "flex",
