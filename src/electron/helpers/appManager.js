@@ -35,7 +35,7 @@ export class AppManager {
 
   registerIpcEvents() {
     ipcMain.on(EVENT_CONSTANTS.TOGGLE_VISIBILITY, () => {
-      toggleVisibility;
+      this.mainWindowManager.toggleVisibility();
     });
 
     ipcMain.on(EVENT_CONSTANTS.TOGGLE_MOUSE_EVENTS, (_event, payload) => {

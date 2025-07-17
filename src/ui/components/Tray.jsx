@@ -3,6 +3,8 @@ import { Command, CornerDownLeft } from "lucide-react";
 import styled from "styled-components";
 import { Slash } from "lucide-react";
 import { EllipsisVertical } from "lucide-react";
+import { electronAPI } from "../utils";
+import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 
 const FixedCenteredContainer = styled.div`
   position: fixed;
@@ -56,7 +58,11 @@ const Tray = () => {
           </ShortcutGroup>
         </ButtonContent>
       </Button>
-      <Button>
+      <Button
+        onClick={() =>
+          electronAPI.sendRendererEvent(EVENT_CONSTANTS.TOGGLE_VISIBILITY)
+        }
+      >
         <ButtonContent>
           <span>Hide</span>
           <ShortcutGroup>
