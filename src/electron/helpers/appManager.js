@@ -39,7 +39,6 @@ export class AppManager {
     });
 
     ipcMain.on(EVENT_CONSTANTS.MOUSE_FORWARDING, (_event, payload) => {
-      console.log(payload)
       this.mainWindowManager.toggleMouseEvents(payload);
     });
   }
