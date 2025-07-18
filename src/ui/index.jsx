@@ -1,12 +1,18 @@
 import { useEffect } from "react";
 import Tray from "./components/Tray";
 import { electronAPI } from "./utils";
+import { closeAllPopovers } from "./atoms/popoverAtom";
 
 const App = () => {
   useEffect(() => {
-    electronAPI.onWindowBlur((data) => {
-      console.log("Window lost focus", data);
-    });
+    const handleBlur = (data) => {
+      const { blurred } = data;
+      if (blurred) {
+        closeAllPopovers();
+      }
+    };
+
+    electronAPI.onWindowBlur(handleBlur);
   }, []);
 
   return <Tray />;

@@ -14,7 +14,7 @@ export class MainWindowManager {
     const y = 0;
 
     return {
-      type: "panel",
+      type: "toolbar",
       width: screenWidth,
       height: screenHeight,
       x,
@@ -37,6 +37,7 @@ export class MainWindowManager {
     this.mainWindow.setVisibleOnAllWorkspaces(true, {
       visibleOnFullScreen: true,
     });
+    this.mainWindow.setAlwaysOnTop(true);
     this.mainWindow.setResizable(false);
     this.mainWindow.setIgnoreMouseEvents(true, { forward: true });
     this.mainWindow.on("blur", () => {
@@ -54,7 +55,7 @@ export class MainWindowManager {
     }
 
     this.mainWindow.webContents.on("did-finish-load", onReady);
-    this.mainWindow.webContents.openDevTools({ mode: "detach" });
+    // this.mainWindow.webContents.openDevTools({ mode: "detach" });
   }
 
   getWindow() {
@@ -81,7 +82,6 @@ export class MainWindowManager {
       this.mainWindow.hide();
     } else {
       this.mainWindow.show();
-      this.mainWindow.focus();
     }
   }
 }
