@@ -5,6 +5,7 @@ import { Slash } from "lucide-react";
 import { electronAPI } from "../utils";
 import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 import Menu from "./Menu";
+import { useState } from "react";
 const FixedCenteredContainer = styled.div`
   position: fixed;
   top: 40px;
@@ -44,17 +45,26 @@ const ShortcutKey = styled.div`
 
 const SolidButton = styled(Button)`
   background-color: rgba(19, 115, 230, 0.7);
-  color: rgba(255, 255, 255, 0.95);
 
   &:hover {
     background-color: rgba(0, 86, 179, 0.7);
-    color: rgba(255, 255, 255, 0.95);
   }
 `;
 
 const Tray = () => {
+  const [xOffset, setXOffset] = useState(0);
+
+  const toggleVisibility = () => {
+    electronAPI.sendRendererEvent(EVENT_CONSTANTS.TOGGLE_VISIBILITY);
+  };
+
+  const moveTray = (direction) => {
+    const newOffset = xOffset + direction * 50;
+    setXOffset(newOffset);
+  };
+
   return (
-    <FixedCenteredContainer>
+    <FixedCenteredContainer style={{ left: `calc(50% + ${xOffset}px)` }}>
       <SolidButton>
         <ButtonContent>
           <span>API Keys</span>
@@ -73,11 +83,7 @@ const Tray = () => {
           </ShortcutGroup>
         </ButtonContent>
       </Button>
-      <Button
-        onClick={() =>
-          electronAPI.sendRendererEvent(EVENT_CONSTANTS.TOGGLE_VISIBILITY)
-        }
-      >
+      <Button onClick={toggleVisibility}>
         <ButtonContent>
           <span>Hide</span>
           <ShortcutGroup>
@@ -94,7 +100,7 @@ const Tray = () => {
           </ShortcutGroup>
         </ButtonContent>
       </Button>
-      <Menu />
+      <Menu moveTray={moveTray} />
     </FixedCenteredContainer>
   );
 };
