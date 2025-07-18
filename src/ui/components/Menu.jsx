@@ -66,24 +66,22 @@ const Menu = ({ moveTray }) => {
 
   useEffect(() => {
     if (isOpen && buttonRef.current) {
-      const buttonRect = buttonRef.current.getBoundingClientRect();
-      requestAnimationFrame(() => {
-        if (menuRef.current) {
-          const menuRect = menuRef.current.getBoundingClientRect();
-          setCoords({
-            top: buttonRect.bottom + 10,
-            left: buttonRect.right - menuRect.width + 4,
-          });
-        }
+      const rect = buttonRef.current.getBoundingClientRect();
+      const menuRect = menuRef.current.getBoundingClientRect();
+      setCoords({
+        top: rect.bottom + 10,
+        left: rect.left - menuRect.width / 2,
       });
     }
   }, [isOpen]);
 
   return (
     <>
-      <Button ref={buttonRef} onClick={toggle}>
-        <EllipsisVertical size={14} />
-      </Button>
+      <div ref={buttonRef}>
+        <Button onClick={toggle}>
+          <EllipsisVertical size={14} />
+        </Button>
+      </div>
 
       {isOpen &&
         ReactDOM.createPortal(
