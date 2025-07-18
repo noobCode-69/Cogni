@@ -7,7 +7,6 @@ const StyledButton = styled.div`
   padding: 5px 10px;
   border-radius: 4px;
   color: #fff;
-  cursor: pointer;
   transition: background 0.2s ease;
   display: inline-flex;
   align-items: center;
