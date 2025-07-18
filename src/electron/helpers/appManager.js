@@ -45,5 +45,9 @@ export class AppManager {
     ipcMain.on(EVENT_CONSTANTS.QUIT_APPLICATION, (_event, payload) => {
       app.quit();
     });
+
+    ipcMain.on(EVENT_CONSTANTS.TOGGLE_INCOGNITO_MODE, (_event, payload) => {
+      this.mainWindowManager.toggleIncognitoMode(payload);
+    });
   }
 }

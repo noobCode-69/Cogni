@@ -7,6 +7,8 @@ import styled from "styled-components";
 import { electronAPI } from "../utils";
 import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 import { useTrayPosition } from "../atoms/trayPositionAtom";
+import { Eye } from "lucide-react";
+import { EyeOff } from "lucide-react";
 
 const SolidButton = styled(Button)`
   background-color: #3b3b3d;
@@ -61,7 +63,15 @@ const CenteredText = styled.div`
   text-align: center;
 `;
 
+const MenuHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 const Menu = ({ moveTray }) => {
+  const [isIncognito, setIsIncognito] = useState(false);
+
   const { trayPosition } = useTrayPosition();
   const { isOpen, toggle } = usePopover(1);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
@@ -83,6 +93,15 @@ const Menu = ({ moveTray }) => {
     electronAPI.sendRendererEvent(EVENT_CONSTANTS.QUIT_APPLICATION);
   };
 
+  const toggleIncognitoMode = () => {
+    const newMode = !isIncognito;
+    setIsIncognito(newMode);
+    electronAPI.sendRendererEvent(
+      EVENT_CONSTANTS.TOGGLE_INCOGNITO_MODE,
+      newMode
+    );
+  };
+
   return (
     <>
       <div ref={buttonRef}>
@@ -94,7 +113,10 @@ const Menu = ({ moveTray }) => {
       {isOpen &&
         ReactDOM.createPortal(
           <MenuContainer ref={menuRef} top={coords.top} left={coords.left}>
-            <MenuTitle>Cogni</MenuTitle>
+            <MenuHeader>
+              <MenuTitle>Cogni</MenuTitle>
+              {isIncognito ? <Eye size={13} /> : <EyeOff size={13} />}
+            </MenuHeader>
             <Divider />
             <MenuActions>
               <ButtonGroup>
@@ -111,8 +133,10 @@ const Menu = ({ moveTray }) => {
                   </ButtonFlex>
                 </SolidButton>
               </ButtonGroup>
-              <SolidButton>
-                <CenteredText>Enable visibility</CenteredText>
+              <SolidButton onClick={toggleIncognitoMode}>
+                <CenteredText>
+                  {isIncognito ? "Go incognito" : "Disable incognito"}
+                </CenteredText>
               </SolidButton>
               <SolidButton onClick={quitApplication}>
                 <CenteredText>Quit</CenteredText>

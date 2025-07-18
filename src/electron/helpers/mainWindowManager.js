@@ -45,6 +45,7 @@ export class MainWindowManager {
         blurred: true,
       });
     });
+    this.mainWindow.setContentProtection(false);
 
     if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
       this.mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
@@ -83,5 +84,9 @@ export class MainWindowManager {
     } else {
       this.mainWindow.show();
     }
+  }
+
+  toggleIncognitoMode(payload) {
+    this.mainWindow.setContentProtection(payload);
   }
 }
