@@ -4,6 +4,8 @@ import Button from "../primitives/Button";
 import { EllipsisVertical, MoveLeft, MoveRight } from "lucide-react";
 import { usePopover } from "../atoms/popoverAtom";
 import styled from "styled-components";
+import { electronAPI } from "../utils";
+import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 
 const SolidButton = styled(Button)`
   background-color: #3b3b3d;
@@ -75,6 +77,10 @@ const Menu = ({ moveTray }) => {
     }
   }, [isOpen]);
 
+  const quitApplication = () => {
+    electronAPI.sendRendererEvent(EVENT_CONSTANTS.QUIT_APPLICATION);
+  };
+
   return (
     <>
       <div ref={buttonRef}>
@@ -106,7 +112,7 @@ const Menu = ({ moveTray }) => {
               <SolidButton>
                 <CenteredText>Enable visibility</CenteredText>
               </SolidButton>
-              <SolidButton>
+              <SolidButton onClick={quitApplication}>
                 <CenteredText>Quit</CenteredText>
               </SolidButton>
             </MenuActions>
