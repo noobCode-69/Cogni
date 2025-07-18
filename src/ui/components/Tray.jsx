@@ -2,9 +2,9 @@ import Button from "../primitives/Button";
 import { Command, CornerDownLeft } from "lucide-react";
 import styled from "styled-components";
 import { Slash } from "lucide-react";
-import { EllipsisVertical } from "lucide-react";
 import { electronAPI } from "../utils";
 import { EVENT_CONSTANTS } from "../../electron/renderUtils";
+import Menu from "./Menu";
 const FixedCenteredContainer = styled.div`
   position: fixed;
   top: 40px;
@@ -94,9 +94,7 @@ const Tray = () => {
           </ShortcutGroup>
         </ButtonContent>
       </Button>
-      <Button>
-        <EllipsisVertical size={14} />
-      </Button>
+      <Menu />
     </FixedCenteredContainer>
   );
 };

@@ -1,5 +1,6 @@
 import { BrowserWindow, screen } from "electron";
 import path from "node:path";
+import { EVENT_CONSTANTS } from "../renderUtils";
 
 export class MainWindowManager {
   constructor() {
@@ -38,6 +39,11 @@ export class MainWindowManager {
     });
     this.mainWindow.setResizable(false);
     this.mainWindow.setIgnoreMouseEvents(true, { forward: true });
+    this.mainWindow.on("blur", () => {
+      this.mainWindow.webContents.send(EVENT_CONSTANTS.WINDOW_BLUR, {
+        blurred: true,
+      });
+    });
 
     if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
       this.mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);

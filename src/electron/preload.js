@@ -10,4 +10,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
       EVENT_CONSTANTS.SEND_KEYBOARD_SHORTCUT_TO_RENDERER,
       (_, data) => callback(data)
     ),
+  onWindowBlur: (callback) => {
+    ipcRenderer.on(EVENT_CONSTANTS.WINDOW_BLUR, (_, data) => callback(data));
+  },
 });
