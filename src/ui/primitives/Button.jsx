@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { useMouseForwarding } from "../hooks/useMouseForwarding";
-import { forwardRef, useImperativeHandle } from "react";
 
 const StyledButton = styled.div`
   background: transparent;
@@ -17,16 +16,14 @@ const StyledButton = styled.div`
   }
 `;
 
-const Button = forwardRef(({ onClick, children, className }, forwardedRef) => {
-  const internalRef = useMouseForwarding();
-
-  useImperativeHandle(forwardedRef, () => internalRef.current);
+const Button = ({ onClick, children, className }, forwardedRef) => {
+  const ref = useMouseForwarding();
 
   return (
-    <StyledButton onClick={onClick} ref={internalRef} className={className}>
+    <StyledButton onClick={onClick} ref={ref} className={className}>
       {children}
     </StyledButton>
   );
-});
+};
 
 export default Button;
