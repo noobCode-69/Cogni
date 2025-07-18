@@ -6,6 +6,7 @@ import { usePopover } from "../atoms/popoverAtom";
 import styled from "styled-components";
 import { electronAPI } from "../utils";
 import { EVENT_CONSTANTS } from "../../electron/renderUtils";
+import { useTrayPosition } from "../atoms/trayPositionAtom";
 
 const SolidButton = styled(Button)`
   background-color: #3b3b3d;
@@ -61,6 +62,7 @@ const CenteredText = styled.div`
 `;
 
 const Menu = ({ moveTray }) => {
+  const { trayPosition } = useTrayPosition();
   const { isOpen, toggle } = usePopover(1);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
   const buttonRef = useRef(null);
@@ -72,7 +74,7 @@ const Menu = ({ moveTray }) => {
       const menuRect = menuRef.current.getBoundingClientRect();
       setCoords({
         top: rect.bottom + 10,
-        left: rect.left - menuRect.width / 2,
+        left: rect.left - menuRect.width / 2 - trayPosition,
       });
     }
   }, [isOpen]);

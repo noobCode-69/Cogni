@@ -5,7 +5,7 @@ import { Slash } from "lucide-react";
 import { electronAPI } from "../utils";
 import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 import Menu from "./Menu";
-import { useEffect, useState } from "react";
+import { useTrayPosition } from "../atoms/trayPositionAtom";
 const FixedCenteredContainer = styled.div`
   position: fixed;
   top: 40px;
@@ -52,7 +52,7 @@ const SolidButton = styled(Button)`
 `;
 
 const Tray = () => {
-  const [currentX, setCurrentX] = useState(0);
+  const { trayPosition, setTrayPosition } = useTrayPosition();
 
   const toggleVisibility = () => {
     electronAPI.sendRendererEvent(EVENT_CONSTANTS.TOGGLE_VISIBILITY);
@@ -62,8 +62,8 @@ const Tray = () => {
     const root = document.getElementById("app-container");
     if (!root) return;
 
-    const newX = currentX + 50 * direction;
-    setCurrentX(newX);
+    const newX = trayPosition + 50 * direction;
+    setTrayPosition(newX);
     root.style.transform = `translateX(${newX}px)`;
   };
 
