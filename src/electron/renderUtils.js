@@ -24,4 +24,10 @@ export const keyboardShortcuts = [
       app.quit();
     },
   },
+  {
+    accelerator: "Command+Enter",
+    action: "CMD_ENTER",
+    sendToRenderer: true,
+    dynamic: true,
+  },
 ];

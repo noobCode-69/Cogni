@@ -6,6 +6,7 @@ import { electronAPI } from "../utils";
 import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 import Menu from "./Menu";
 import { useTrayPosition } from "../atoms/trayPositionAtom";
+import Chat from "./Chat";
 const FixedCenteredContainer = styled.div`
   position: fixed;
   top: 40px;
@@ -74,19 +75,7 @@ const Tray = () => {
           <span>API Keys</span>
         </ButtonContent>
       </SolidButton>
-      <Button>
-        <ButtonContent>
-          <span>Ask</span>
-          <ShortcutGroup>
-            <ShortcutKey>
-              <Command size={9} />
-            </ShortcutKey>
-            <ShortcutKey>
-              <CornerDownLeft size={9} />
-            </ShortcutKey>
-          </ShortcutGroup>
-        </ButtonContent>
-      </Button>
+      <Chat />
       <Button onClick={toggleVisibility}>
         <ButtonContent>
           <span>Hide</span>
