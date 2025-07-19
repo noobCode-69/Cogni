@@ -16,4 +16,12 @@ export const keyboardShortcuts = [
       mainWindowManager.toggleVisibility();
     },
   },
+  {
+    accelerator: "Command+Q",
+    action: "CMD_QUIT",
+    sendToRenderer: false,
+    handler: ({ app }) => {
+      app.quit();
+    },
+  },
 ];

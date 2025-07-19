@@ -2,8 +2,9 @@ import { globalShortcut } from "electron";
 import { keyboardShortcuts, EVENT_CONSTANTS } from "../renderUtils";
 
 export class ShortcutManager {
-  constructor(mainWindowManager) {
+  constructor(mainWindowManager, appInstance) {
     this.mainWindowManager = mainWindowManager;
+    this.app = appInstance;
   }
 
   registerShortcuts() {
@@ -12,6 +13,7 @@ export class ShortcutManager {
 
     const context = {
       mainWindowManager: this.mainWindowManager,
+      app: this.app,
     };
 
     keyboardShortcuts.forEach(
@@ -26,10 +28,6 @@ export class ShortcutManager {
             handler(context);
           }
         });
-
-        if (!success) {
-          console.warn(`Failed to register shortcut: ${accelerator}`);
-        }
       }
     );
   }

@@ -6,7 +6,7 @@ import { EVENT_CONSTANTS } from "../renderUtils.js";
 export class AppManager {
   constructor() {
     this.mainWindowManager = new MainWindowManager();
-    this.shortcutManager = new ShortcutManager(this.mainWindowManager);
+    this.shortcutManager = new ShortcutManager(this.mainWindowManager, app);
     this.registerAppEvents();
     this.registerIpcEvents();
   }

@@ -14,7 +14,6 @@ export class MainWindowManager {
     const y = 0;
 
     return {
-      type: "toolbar",
       width: screenWidth,
       height: screenHeight,
       minimizable: false,
@@ -47,6 +46,12 @@ export class MainWindowManager {
       });
     });
     this.mainWindow.setContentProtection(false);
+    this.mainWindow.setMenu(null);
+    this.mainWindow.webContents.on("before-input-event", (event, input) => {
+      if (input.key.toLowerCase() === "w" && input.meta) {
+        event.preventDefault();
+      }
+    });
 
     if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
       this.mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);

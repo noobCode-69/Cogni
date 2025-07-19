@@ -62,7 +62,7 @@ const Tray = () => {
     const root = document.getElementById("app-container");
     if (!root) return;
 
-    const newX = trayPosition + 50 * direction;
+    const newX = trayPosition + 100 * direction;
     setTrayPosition(newX);
     root.style.transform = `translateX(${newX}px)`;
   };
