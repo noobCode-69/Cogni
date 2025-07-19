@@ -39,11 +39,13 @@ const ChatBoxContainer = styled.div`
   border-radius: 8px;
   z-index: 9999;
   border: 1px solid #3a3a3a;
-  width: 500px;
+  width: 600px;
 `;
 
 const InputBox = ({ coords }) => (
-  <ChatBoxContainer top={coords.top}>InputBox</ChatBoxContainer>
+  <ChatBoxContainer top={coords.top}>
+    
+  </ChatBoxContainer>
 );
 
 const AnswerBox = ({ coords, step }) => (
