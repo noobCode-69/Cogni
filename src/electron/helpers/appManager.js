@@ -2,6 +2,7 @@ import { app, ipcMain } from "electron";
 import { MainWindowManager } from "./mainWindowManager.js";
 import { ShortcutManager } from "./shortCutManager.js";
 import { EVENT_CONSTANTS } from "../renderUtils.js";
+import { globalShortcut } from "electron";
 
 export class AppManager {
   constructor() {
@@ -30,6 +31,10 @@ export class AppManager {
       if (process.platform !== "darwin") {
         app.quit();
       }
+    });
+
+    appInstance.on("will-quit", () => {
+      globalShortcut.unregisterAll();
     });
   }
 
