@@ -5,7 +5,6 @@ export class ShortcutManager {
   constructor(mainWindowManager, appInstance) {
     this.mainWindowManager = mainWindowManager;
     this.app = appInstance;
-    this.dynamicShortcuts = new Map();
   }
 
   registerShortcuts() {
@@ -17,15 +16,12 @@ export class ShortcutManager {
       app: this.app,
     };
 
-    keyboardShortcuts.forEach(
-      ({ accelerator, action, sendToRenderer, handler, dynamic }) => {
-        if (dynamic) {
-          this.dynamicShortcuts.set(accelerator, {
-            action,
-            sendToRenderer,
-          });
-          return;
-        }
+    for (const shortcut of keyboardShortcuts) {
+      const { accelerator, action, sendToRenderer, handler, dynamic } =
+        shortcut;
+
+      if (dynamic) continue;
+      if (!globalShortcut.isRegistered(accelerator)) {
         globalShortcut.register(accelerator, () => {
           if (sendToRenderer) {
             window.webContents.send(
@@ -37,7 +33,7 @@ export class ShortcutManager {
           }
         });
       }
-    );
+    }
 
     window.on("show", () => this.registerDynamicShortcuts());
     window.on("hide", () => this.unregisterDynamicShortcuts());
@@ -51,10 +47,10 @@ export class ShortcutManager {
   registerDynamicShortcuts() {
     const window = this.mainWindowManager.getWindow();
     if (!window) return;
-    for (const [
-      accelerator,
-      { action, sendToRenderer },
-    ] of this.dynamicShortcuts.entries()) {
+    for (const shortcut of keyboardShortcuts) {
+      const { accelerator, action, sendToRenderer, dynamic } = shortcut;
+      if (!dynamic) continue;
+
       if (!globalShortcut.isRegistered(accelerator)) {
         globalShortcut.register(accelerator, () => {
           if (sendToRenderer) {
@@ -62,6 +58,8 @@ export class ShortcutManager {
               EVENT_CONSTANTS.SEND_KEYBOARD_SHORTCUT_TO_RENDERER,
               action
             );
+          } else if (typeof handler === "function") {
+            handler(context);
           }
         });
       }
@@ -69,7 +67,10 @@ export class ShortcutManager {
   }
 
   unregisterDynamicShortcuts() {
-    for (const accelerator of this.dynamicShortcuts.keys()) {
+    for (const shortcut of keyboardShortcuts) {
+      const { accelerator, dynamic } = shortcut;
+      if (!dynamic) continue;
+
       if (globalShortcut.isRegistered(accelerator)) {
         globalShortcut.unregister(accelerator);
       }
