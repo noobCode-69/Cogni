@@ -5,7 +5,6 @@ import { usePopover } from "../atoms/popoverAtom";
 import ReactDOM from "react-dom";
 import { useEffect, useRef, useState } from "react";
 import { electronAPI } from "../utils";
-import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 
 const ButtonContent = styled.div`
   display: flex;
