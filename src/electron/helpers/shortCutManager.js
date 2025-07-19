@@ -7,22 +7,34 @@ export class ShortcutManager {
     this.app = appInstance;
   }
 
+  getContext() {
+    return {
+      mainWindowManager: this.mainWindowManager,
+      app: this.app,
+    };
+  }
+
   registerShortcuts() {
     const window = this.mainWindowManager.getWindow();
     if (!window) return;
 
-    const context = {
-      mainWindowManager: this.mainWindowManager,
-      app: this.app,
-    };
-
+    const context = this.getContext();
     for (const shortcut of keyboardShortcuts) {
-      const { accelerator, action, sendToRenderer, handler, dynamic } =
-        shortcut;
+      const {
+        accelerator,
+        action,
+        sendToRenderer,
+        handler,
+        dynamic,
+        onBeforeSend,
+      } = shortcut;
 
       if (dynamic) continue;
       if (!globalShortcut.isRegistered(accelerator)) {
         globalShortcut.register(accelerator, () => {
+          if (typeof onBeforeSend === "function") {
+            onBeforeSend(context);
+          }
           if (sendToRenderer) {
             window.webContents.send(
               EVENT_CONSTANTS.SEND_KEYBOARD_SHORTCUT_TO_RENDERER,
@@ -47,12 +59,23 @@ export class ShortcutManager {
   registerDynamicShortcuts() {
     const window = this.mainWindowManager.getWindow();
     if (!window) return;
+    const context = this.getContext();
     for (const shortcut of keyboardShortcuts) {
-      const { accelerator, action, sendToRenderer, dynamic } = shortcut;
+      const {
+        accelerator,
+        action,
+        sendToRenderer,
+        dynamic,
+        onBeforeSend,
+        handler,
+      } = shortcut;
       if (!dynamic) continue;
 
       if (!globalShortcut.isRegistered(accelerator)) {
         globalShortcut.register(accelerator, () => {
+          if (typeof onBeforeSend === "function") {
+            onBeforeSend(context);
+          }
           if (sendToRenderer) {
             window.webContents.send(
               EVENT_CONSTANTS.SEND_KEYBOARD_SHORTCUT_TO_RENDERER,
