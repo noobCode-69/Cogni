@@ -115,7 +115,7 @@ const Menu = ({ moveTray }) => {
           <MenuContainer ref={menuRef} top={coords.top} left={coords.left}>
             <MenuHeader>
               <MenuTitle>Cogni</MenuTitle>
-              {isIncognito ? <Eye size={13} /> : <EyeOff size={13} />}
+              {isIncognito ? <EyeOff size={13} /> : <Eye size={13} />}
             </MenuHeader>
             <Divider />
             <MenuActions>
@@ -135,7 +135,7 @@ const Menu = ({ moveTray }) => {
               </ButtonGroup>
               <SolidButton onClick={toggleIncognitoMode}>
                 <CenteredText>
-                  {isIncognito ? "Go incognito" : "Disable incognito"}
+                  {isIncognito ? "Disable incognito" : "Go incognito"}
                 </CenteredText>
               </SolidButton>
               <SolidButton onClick={quitApplication}>
