@@ -17,6 +17,7 @@ export class MainWindowManager {
       type: "toolbar",
       width: screenWidth,
       height: screenHeight,
+      minimizable: false,
       x,
       y,
       frame: false,
