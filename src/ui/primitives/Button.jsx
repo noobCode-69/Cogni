@@ -20,12 +20,7 @@ const Button = ({ onClick, children, className }, forwardedRef) => {
   const ref = useMouseForwarding();
 
   return (
-    <StyledButton
-      role="button"
-      onClick={onClick}
-      ref={ref}
-      className={className}
-    >
+    <StyledButton onClick={onClick} ref={ref} className={className}>
       {children}
     </StyledButton>
   );
