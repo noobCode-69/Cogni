@@ -33,7 +33,7 @@ export class AppManager {
       }
     });
 
-    appInstance.on("will-quit", () => {
+    app.on("will-quit", () => {
       globalShortcut.unregisterAll();
     });
   }
