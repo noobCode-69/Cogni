@@ -36,18 +36,21 @@ export class ShortcutManager {
             handler(context);
           }
         });
-
-        window.on("show", () => this.registerDynamicShortcuts());
-        window.on("hide", () => this.unregisterDynamicShortcuts());
-        window.on("close", () => this.unregisterDynamicShortcuts());
       }
     );
+
+    window.on("show", () => this.registerDynamicShortcuts());
+    window.on("hide", () => this.unregisterDynamicShortcuts());
+    window.on("close", () => this.unregisterDynamicShortcuts());
+
+    if (window.isVisible()) {
+      this.registerDynamicShortcuts();
+    }
   }
 
   registerDynamicShortcuts() {
     const window = this.mainWindowManager.getWindow();
     if (!window) return;
-
     for (const [
       accelerator,
       { action, sendToRenderer },
