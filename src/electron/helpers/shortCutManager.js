@@ -11,6 +11,7 @@ export class ShortcutManager {
     return {
       mainWindowManager: this.mainWindowManager,
       app: this.app,
+      window: this.mainWindowManager.getWindow(),
     };
   }
 
