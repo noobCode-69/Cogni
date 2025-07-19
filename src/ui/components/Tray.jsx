@@ -16,7 +16,7 @@ const FixedCenteredContainer = styled.div`
   border-radius: 4px;
   width: fit-content;
   padding: 4px;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: stretch;
   justify-content: center;

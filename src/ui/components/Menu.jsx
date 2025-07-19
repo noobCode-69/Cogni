@@ -83,7 +83,7 @@ const Menu = ({ moveTray }) => {
       const rect = buttonRef.current.getBoundingClientRect();
       const menuRect = menuRef.current.getBoundingClientRect();
       setCoords({
-        top: rect.bottom + 20,
+        top: rect.bottom + 15,
         left: rect.left - menuRect.width / 2 - trayPosition,
       });
     }

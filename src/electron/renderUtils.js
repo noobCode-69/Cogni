@@ -20,6 +20,7 @@ export const keyboardShortcuts = [
     accelerator: "Command+Q",
     action: "CMD_QUIT",
     sendToRenderer: false,
+    dynamic: true,
     handler: ({ app }) => {
       app.quit();
     },
