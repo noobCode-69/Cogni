@@ -16,8 +16,7 @@ export class ShortcutManager {
   }
 
   registerShortcuts() {
-    const window = this.mainWindowManager.getWindow();
-    if (!window) return;
+    if (!this.mainWindowManager.getWindow()) return;
 
     const context = this.getContext();
     for (const shortcut of keyboardShortcuts) {
@@ -37,7 +36,7 @@ export class ShortcutManager {
             onBeforeSend(context);
           }
           if (sendToRenderer) {
-            window.webContents.send(
+            this.mainWindowManager.sendToRenderer(
               EVENT_CONSTANTS.SEND_KEYBOARD_SHORTCUT_TO_RENDERER,
               action
             );
@@ -48,18 +47,24 @@ export class ShortcutManager {
       }
     }
 
-    window.on("show", () => this.registerDynamicShortcuts());
-    window.on("hide", () => this.unregisterDynamicShortcuts());
-    window.on("close", () => this.unregisterDynamicShortcuts());
+    this.mainWindowManager.onWindowEvent("show", () =>
+      this.registerDynamicShortcuts()
+    );
+    this.mainWindowManager.onWindowEvent("hide", () =>
+      this.unregisterDynamicShortcuts()
+    );
+    this.mainWindowManager.onWindowEvent("close", () =>
+      this.unregisterDynamicShortcuts()
+    );
 
-    if (window.isVisible()) {
+    if (this.mainWindowManager.isVisible()) {
       this.registerDynamicShortcuts();
     }
   }
 
   registerDynamicShortcuts() {
-    const window = this.mainWindowManager.getWindow();
-    if (!window) return;
+    if (!this.mainWindowManager.getWindow()) return;
+
     const context = this.getContext();
     for (const shortcut of keyboardShortcuts) {
       const {
@@ -78,7 +83,7 @@ export class ShortcutManager {
             onBeforeSend(context);
           }
           if (sendToRenderer) {
-            window.webContents.send(
+            this.mainWindowManager.sendToRenderer(
               EVENT_CONSTANTS.SEND_KEYBOARD_SHORTCUT_TO_RENDERER,
               action
             );

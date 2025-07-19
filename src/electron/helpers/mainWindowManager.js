@@ -95,4 +95,23 @@ export class MainWindowManager {
   toggleIncognitoMode(payload) {
     this.mainWindow.setContentProtection(payload);
   }
+
+  sendToRenderer(channel, message) {
+    const window = this.getWindow();
+    if (window && window.webContents) {
+      window.webContents.send(channel, message);
+    }
+  }
+
+  isVisible() {
+    const window = this.getWindow();
+    return window ? window.isVisible() : false;
+  }
+
+  onWindowEvent(event, callback) {
+    const window = this.getWindow();
+    if (window) {
+      window.on(event, callback);
+    }
+  }
 }
