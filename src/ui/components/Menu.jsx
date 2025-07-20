@@ -6,9 +6,9 @@ import { usePopover } from "../atoms/popoverAtom";
 import styled from "styled-components";
 import { electronAPI } from "../utils";
 import { EVENT_CONSTANTS } from "../../electron/renderUtils";
-import { useTrayPosition } from "../atoms/trayPositionAtom";
 import { Eye } from "lucide-react";
 import { EyeOff } from "lucide-react";
+import { useTrayPosition } from "../hooks/useTrayPosition";
 
 const SolidButton = styled(Button)`
   background-color: #3b3b3d;

@@ -5,8 +5,8 @@ import { Slash } from "lucide-react";
 import { electronAPI } from "../utils";
 import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 import Menu from "./Menu";
-import { useTrayPosition } from "../atoms/trayPositionAtom";
 import Chat from "./Chat";
+import { useTrayPosition } from "../hooks/useTrayPosition";
 const FixedCenteredContainer = styled.div`
   position: fixed;
   top: 40px;
