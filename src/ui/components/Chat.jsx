@@ -8,6 +8,12 @@ import { usePopover } from "../atoms/popoverAtom";
 import { electronAPI } from "../utils";
 import { useMouseForwarding } from "../hooks/useMouseForwarding";
 
+const STEPS = {
+  INPUT: "INPUT",
+  ANSWER: "ANSWER",
+  FOLLOWUP: "FOLLOWUP",
+};
+
 const ButtonContent = styled.div`
   display: flex;
   align-items: center;
@@ -96,12 +102,25 @@ const SolidButton = styled(Button)`
   }
 `;
 
-const InputBox = ({ coords, setStep, step, fixed = true }) => {
+const getNextStep = (currentStep) => {
+  switch (currentStep) {
+    case STEPS.INPUT:
+      return STEPS.ANSWER;
+    case STEPS.ANSWER:
+      return STEPS.FOLLOWUP;
+    case STEPS.FOLLOWUP:
+      return STEPS.ANSWER;
+    default:
+      return STEPS.INPUT;
+  }
+};
+
+const InputBox = ({ coords, setStep, fixed = true }) => {
   const containerRef = useMouseForwarding();
   const inputRef = useRef(null);
 
   const handleSubmit = () => {
-    setStep(2);
+    setStep(STEPS.ANSWER);
   };
 
   useEffect(() => {
@@ -114,9 +133,7 @@ const InputBox = ({ coords, setStep, step, fixed = true }) => {
       }
     };
     input.addEventListener("keydown", handleKeyDown);
-    return () => {
-      input.removeEventListener("keydown", handleKeyDown);
-    };
+    return () => input.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   return (
@@ -136,27 +153,32 @@ const InputBox = ({ coords, setStep, step, fixed = true }) => {
   );
 };
 
-const AnswerBox = ({ coords, setStep, step }) => (
+const AnswerBox = ({ coords, step, setStep }) => (
   <AnswerBoxContainer top={coords.top}>
-    <div
-      style={{
-        padding: "4px",
-        minHeight: "200px",
-        maxHeight: "400px",
-      }}
-    >
+    <div style={{ padding: "4px", minHeight: "200px", maxHeight: "400px" }}>
       AnswerBox
     </div>
-
-    {step === 3 && (
-      <InputBox fixed={false} coords={coords} setStep={setStep} step={step} />
+    {step === STEPS.FOLLOWUP && (
+      <InputBox fixed={false} coords={coords} setStep={setStep} />
     )}
   </AnswerBoxContainer>
 );
 
+const StepRenderer = ({ step, coords, setStep }) => {
+  switch (step) {
+    case STEPS.INPUT:
+      return <InputBox fixed={true} coords={coords} setStep={setStep} />;
+    case STEPS.ANSWER:
+    case STEPS.FOLLOWUP:
+      return <AnswerBox coords={coords} step={step} setStep={setStep} />;
+    default:
+      return null;
+  }
+};
+
 const Chat = () => {
   const { isOpen, toggle, isOpenRef } = usePopover(2);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(STEPS.INPUT);
   const buttonRef = useRef(null);
   const [coords, setCoords] = useState({ top: 0 });
 
@@ -170,7 +192,7 @@ const Chat = () => {
   useEffect(() => {
     const handleShortcut = () => {
       if (isOpenRef.current) {
-        setStep((prev) => (prev === 1 ? 2 : prev === 2 ? 3 : 2));
+        setStep((prev) => getNextStep(prev));
       } else {
         toggle();
       }
@@ -183,10 +205,10 @@ const Chat = () => {
     if (!isOpenRef.current) {
       toggle();
     } else {
-      if (step === 1) {
+      if (step === STEPS.INPUT) {
         toggle();
       } else {
-        setStep((prev) => (prev === 2 ? 3 : 2));
+        setStep((prev) => getNextStep(prev));
       }
     }
   };
@@ -211,16 +233,7 @@ const Chat = () => {
 
       {isOpen &&
         ReactDOM.createPortal(
-          step === 1 ? (
-            <InputBox
-              fixed={true}
-              coords={coords}
-              step={step}
-              setStep={setStep}
-            />
-          ) : (
-            <AnswerBox coords={coords} step={step} setStep={setStep} />
-          ),
+          <StepRenderer step={step} coords={coords} setStep={setStep} />,
           document.getElementById("root-portal")
         )}
     </>
