@@ -190,7 +190,6 @@ const QuestionBoxContainer = styled.div`
   display: flex;
   align-items: center;
   width: ${({ fixed }) => (fixed ? "600px" : "auto")};
-  font-size: 0.8rem;
 `;
 
 const AnswerBoxContainer = styled.div`
@@ -205,7 +204,6 @@ const AnswerBoxContainer = styled.div`
   z-index: 9999;
   border: 1px solid #3a3a3a;
   width: 600px;
-  font-size: 0.8rem;
 `;
 
 const StyledInput = styled.input`
