@@ -36,7 +36,7 @@ const QuestionBoxContainer = styled.div`
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.5);
   color: white;
-  padding: 0;
+  padding: 4px;
   border-radius: 8px;
   z-index: 9999;
   border: 1px solid #3a3a3a;
@@ -52,7 +52,7 @@ const AnswerBoxContainer = styled.div`
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.5);
   color: white;
-  padding: 12px 8px;
+  padding: 4px;
   border-radius: 8px;
   z-index: 9999;
   border: 1px solid #3a3a3a;
@@ -63,7 +63,7 @@ const StyledInput = styled.input`
   flex-grow: 1;
   background: transparent;
   border: none;
-  padding: 12px 8px;
+  padding: 4px;
   color: white;
   border-radius: 8px;
 
@@ -80,6 +80,9 @@ const InputActions = styled.div`
   flex-shrink: 0;
   flex-grow: 0;
   border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 `;
 
 const SolidButton = styled(Button)`
