@@ -42,6 +42,7 @@ const QuestionBoxContainer = styled.div`
   border: 1px solid #3a3a3a;
   width: 600px;
   display: flex;
+  align-items: center;
 `;
 
 const AnswerBoxContainer = styled.div`
@@ -81,6 +82,12 @@ const InputActions = styled.div`
   border-radius: 8px;
 `;
 
+const SolidButton = styled(Button)`
+  background-color: rgba(74, 74, 74, 0.3);
+  &:hover {
+    background-color: rgba(74, 74, 74, 0.3);
+  }
+`;
 const InputBox = ({ coords }) => {
   const containerRef = useMouseForwarding();
   const inputRef = useRef(null);
@@ -94,7 +101,20 @@ const InputBox = ({ coords }) => {
   return (
     <QuestionBoxContainer ref={containerRef} top={coords.top}>
       <StyledInput ref={inputRef} placeholder="Ask about your screen" />
-      <InputActions />
+      <InputActions>
+        <SolidButton>
+          <ButtonContent>
+            <span>Submit</span>
+            <ShortcutKey
+              style={{
+                background: "#3a3a3a",
+              }}
+            >
+              <CornerDownLeft size={9} />
+            </ShortcutKey>
+          </ButtonContent>
+        </SolidButton>
+      </InputActions>
     </QuestionBoxContainer>
   );
 };

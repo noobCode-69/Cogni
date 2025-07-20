@@ -10,6 +10,7 @@ const StyledButton = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  cursor: pointer;
 
   &:hover {
     background-color: rgba(74, 74, 74, 0.3);
