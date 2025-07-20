@@ -6,6 +6,7 @@ import { Command, CornerDownLeft } from "lucide-react";
 import Button from "../primitives/Button";
 import { usePopover } from "../atoms/popoverAtom";
 import { electronAPI } from "../utils";
+import { useMouseForwarding } from "../hooks/useMouseForwarding";
 
 const ButtonContent = styled.div`
   display: flex;
@@ -28,7 +29,22 @@ const ShortcutKey = styled.div`
   justify-content: center;
 `;
 
-const ChatBoxContainer = styled.div`
+const QuestionBoxContainer = styled.div`
+  position: fixed;
+  top: ${({ top }) => `${top}px`};
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 0;
+  border-radius: 8px;
+  z-index: 9999;
+  border: 1px solid #3a3a3a;
+  width: 600px;
+  display: flex;
+`;
+
+const AnswerBoxContainer = styled.div`
   position: fixed;
   top: ${({ top }) => `${top}px`};
   left: 50%;
@@ -42,17 +58,52 @@ const ChatBoxContainer = styled.div`
   width: 600px;
 `;
 
-const InputBox = ({ coords }) => (
-  <ChatBoxContainer top={coords.top}>
-    
-  </ChatBoxContainer>
-);
+const StyledInput = styled.input`
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  padding: 12px 8px;
+  color: white;
+  border-radius: 8px;
+
+  &::placeholder {
+    color: grey;
+    font-size: 0.8rem;
+    font-weight: semibold;
+  }
+`;
+
+const InputActions = styled.div`
+  background: transparent;
+  width: 100px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  border-radius: 8px;
+`;
+
+const InputBox = ({ coords }) => {
+  const containerRef = useMouseForwarding();
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  return (
+    <QuestionBoxContainer ref={containerRef} top={coords.top}>
+      <StyledInput ref={inputRef} placeholder="Ask about your screen" />
+      <InputActions />
+    </QuestionBoxContainer>
+  );
+};
 
 const AnswerBox = ({ coords, step }) => (
-  <ChatBoxContainer top={coords.top}>
+  <AnswerBoxContainer top={coords.top}>
     AnswerBox
     {step === 3 && <div>Dummy input box</div>}
-  </ChatBoxContainer>
+  </AnswerBoxContainer>
 );
 
 const Chat = () => {
@@ -89,8 +140,11 @@ const Chat = () => {
     if (!isOpenRef.current) {
       toggle();
     } else {
-      setStep((prev) => (prev === 2 ? 3 : 2));
-      if (step === 1) toggle();
+      if (step === 1) {
+        toggle();
+      } else {
+        setStep((prev) => (prev === 2 ? 3 : 2));
+      }
     }
   };
 
