@@ -27,12 +27,15 @@ const getNextStep = (currentStep) => {
   }
 };
 
-const InputBox = ({ coords, setStep, fixed = true }) => {
+const InputBox = ({ coords, setStep, fixed = true, makeQuery }) => {
+  const [queryInput, setQueryInput] = useState("");
   const containerRef = useMouseForwarding();
   const inputRef = useRef(null);
 
   const handleSubmit = () => {
+    makeQuery(queryInput);
     setStep(STEPS.ANSWER);
+    setQueryInput("");
   };
 
   useEffect(() => {
@@ -50,7 +53,14 @@ const InputBox = ({ coords, setStep, fixed = true }) => {
 
   return (
     <QuestionBoxContainer ref={containerRef} fixed={fixed} top={coords.top}>
-      <StyledInput ref={inputRef} placeholder="Ask about your screen" />
+      <StyledInput
+        ref={inputRef}
+        value={queryInput}
+        onChange={(e) => {
+          setQueryInput(e.target.value);
+        }}
+        placeholder="Ask about your screen"
+      />
       <InputActions>
         <SolidButton disappearing={true} onClick={handleSubmit}>
           <ButtonContent>
@@ -65,22 +75,41 @@ const InputBox = ({ coords, setStep, fixed = true }) => {
   );
 };
 
-const AnswerBox = ({ coords, step, setStep }) => (
+const AnswerBox = ({ coords, step, setStep, makeQuery }) => (
   <AnswerBoxContainer top={coords.top}>
     <Answer>AnswerBox</Answer>
     {step === STEPS.FOLLOWUP && (
-      <InputBox fixed={false} coords={coords} setStep={setStep} />
+      <InputBox
+        makeQuery={makeQuery}
+        fixed={false}
+        coords={coords}
+        setStep={setStep}
+      />
     )}
   </AnswerBoxContainer>
 );
 
-const StepRenderer = ({ step, coords, setStep }) => {
+const StepRenderer = ({ step, coords, setStep, makeQuery }) => {
   switch (step) {
     case STEPS.INPUT:
-      return <InputBox fixed={true} coords={coords} setStep={setStep} />;
+      return (
+        <InputBox
+          fixed={true}
+          coords={coords}
+          setStep={setStep}
+          makeQuery={makeQuery}
+        />
+      );
     case STEPS.ANSWER:
     case STEPS.FOLLOWUP:
-      return <AnswerBox coords={coords} step={step} setStep={setStep} />;
+      return (
+        <AnswerBox
+          coords={coords}
+          step={step}
+          setStep={setStep}
+          makeQuery={makeQuery}
+        />
+      );
     default:
       return null;
   }
@@ -91,7 +120,6 @@ const Chat = () => {
   const [step, setStep] = useState(STEPS.INPUT);
   const buttonRef = useRef(null);
   const [coords, setCoords] = useState({ top: 0 });
-  const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (isOpen && buttonRef.current) {
@@ -124,6 +152,10 @@ const Chat = () => {
     }
   };
 
+  const makeQuery = (query) => {
+    console.log(`${query}`);
+  };
+
   return (
     <>
       <div ref={buttonRef}>
@@ -144,7 +176,12 @@ const Chat = () => {
 
       {isOpen &&
         ReactDOM.createPortal(
-          <StepRenderer step={step} coords={coords} setStep={setStep} />,
+          <StepRenderer
+            step={step}
+            coords={coords}
+            setStep={setStep}
+            makeQuery={makeQuery}
+          />,
           document.getElementById("root-portal")
         )}
     </>
@@ -172,7 +209,9 @@ const ShortcutKey = styled.div`
   justify-content: center;
 `;
 
-const QuestionBoxContainer = styled.div`
+const QuestionBoxContainer = styled(({ fixed, top, ...rest }) => (
+  <div {...rest} />
+))`
   ${({ fixed, top }) =>
     fixed &&
     `
