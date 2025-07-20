@@ -53,6 +53,7 @@ const QuestionBoxContainer = styled.div`
   display: flex;
   align-items: center;
   width: ${({ fixed }) => (fixed ? "600px" : "auto")};
+  font-size: 0.8rem;
 `;
 
 const AnswerBoxContainer = styled.div`
@@ -67,6 +68,7 @@ const AnswerBoxContainer = styled.div`
   z-index: 9999;
   border: 1px solid #3a3a3a;
   width: 600px;
+  font-size: 0.8rem;
 `;
 
 const StyledInput = styled.input`
@@ -76,10 +78,8 @@ const StyledInput = styled.input`
   padding: 4px;
   color: white;
   border-radius: 8px;
-
   &::placeholder {
     color: grey;
-    font-size: 0.8rem;
     font-weight: semibold;
   }
 `;
@@ -100,6 +100,12 @@ const SolidButton = styled(Button)`
   &:hover {
     background-color: rgba(74, 74, 74, 0.3);
   }
+`;
+
+const Answer = styled.div`
+  padding: 4px;
+  min-height: 200px;
+  max-height: 400px;
 `;
 
 const getNextStep = (currentStep) => {
@@ -155,9 +161,7 @@ const InputBox = ({ coords, setStep, fixed = true }) => {
 
 const AnswerBox = ({ coords, step, setStep }) => (
   <AnswerBoxContainer top={coords.top}>
-    <div style={{ padding: "4px", minHeight: "200px", maxHeight: "400px" }}>
-      AnswerBox
-    </div>
+    <Answer>AnswerBox</Answer>
     {step === STEPS.FOLLOWUP && (
       <InputBox fixed={false} coords={coords} setStep={setStep} />
     )}
@@ -181,6 +185,7 @@ const Chat = () => {
   const [step, setStep] = useState(STEPS.INPUT);
   const buttonRef = useRef(null);
   const [coords, setCoords] = useState({ top: 0 });
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (isOpen && buttonRef.current) {
