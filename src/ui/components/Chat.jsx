@@ -30,19 +30,23 @@ const ShortcutKey = styled.div`
 `;
 
 const QuestionBoxContainer = styled.div`
-  position: fixed;
-  top: ${({ top }) => `${top}px`};
-  left: 50%;
-  transform: translateX(-50%);
+  ${({ fixed, top }) =>
+    fixed &&
+    `
+    position: fixed;
+    top: ${top}px;
+    left: 50%;
+    transform: translateX(-50%);
+  `}
   background: rgba(0, 0, 0, 0.5);
   color: white;
   padding: 4px;
   border-radius: 8px;
   z-index: 9999;
   border: 1px solid #3a3a3a;
-  width: 600px;
   display: flex;
   align-items: center;
+  width: ${({ fixed }) => (fixed ? "600px" : "auto")};
 `;
 
 const AnswerBoxContainer = styled.div`
@@ -91,28 +95,38 @@ const SolidButton = styled(Button)`
     background-color: rgba(74, 74, 74, 0.3);
   }
 `;
-const InputBox = ({ coords }) => {
+
+const InputBox = ({ coords, setStep, step, fixed = true }) => {
   const containerRef = useMouseForwarding();
   const inputRef = useRef(null);
 
+  const handleSubmit = () => {
+    setStep(2);
+  };
+
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
+    const input = inputRef.current;
+    if (!input) return;
+    input.focus();
+    const handleKeyDown = (e) => {
+      if (e.key === "Enter") {
+        handleSubmit();
+      }
+    };
+    input.addEventListener("keydown", handleKeyDown);
+    return () => {
+      input.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   return (
-    <QuestionBoxContainer ref={containerRef} top={coords.top}>
+    <QuestionBoxContainer ref={containerRef} fixed={fixed} top={coords.top}>
       <StyledInput ref={inputRef} placeholder="Ask about your screen" />
       <InputActions>
-        <SolidButton>
+        <SolidButton disappearing={true} onClick={handleSubmit}>
           <ButtonContent>
             <span>Submit</span>
-            <ShortcutKey
-              style={{
-                background: "#3a3a3a",
-              }}
-            >
+            <ShortcutKey style={{ background: "#3a3a3a" }}>
               <CornerDownLeft size={9} />
             </ShortcutKey>
           </ButtonContent>
@@ -122,10 +136,21 @@ const InputBox = ({ coords }) => {
   );
 };
 
-const AnswerBox = ({ coords, step }) => (
+const AnswerBox = ({ coords, setStep, step }) => (
   <AnswerBoxContainer top={coords.top}>
-    AnswerBox
-    {step === 3 && <div>Dummy input box</div>}
+    <div
+      style={{
+        padding: "4px",
+        minHeight: "200px",
+        maxHeight: "400px",
+      }}
+    >
+      AnswerBox
+    </div>
+
+    {step === 3 && (
+      <InputBox fixed={false} coords={coords} setStep={setStep} step={step} />
+    )}
   </AnswerBoxContainer>
 );
 
@@ -192,9 +217,14 @@ const Chat = () => {
       {isOpen &&
         ReactDOM.createPortal(
           step === 1 ? (
-            <InputBox coords={coords} />
+            <InputBox
+              fixed={true}
+              coords={coords}
+              step={step}
+              setStep={setStep}
+            />
           ) : (
-            <AnswerBox coords={coords} step={step} />
+            <AnswerBox coords={coords} step={step} setStep={setStep} />
           ),
           document.getElementById("root-portal")
         )}
