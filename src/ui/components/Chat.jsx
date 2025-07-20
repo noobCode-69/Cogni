@@ -155,15 +155,10 @@ const AnswerBox = ({ coords, setStep, step }) => (
 );
 
 const Chat = () => {
-  const { isOpen, toggle } = usePopover(2);
+  const { isOpen, toggle, isOpenRef } = usePopover(2);
   const [step, setStep] = useState(1);
   const buttonRef = useRef(null);
-  const isOpenRef = useRef(isOpen);
   const [coords, setCoords] = useState({ top: 0 });
-
-  useEffect(() => {
-    isOpenRef.current = isOpen;
-  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen && buttonRef.current) {
