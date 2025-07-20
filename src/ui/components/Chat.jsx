@@ -4,9 +4,9 @@ import styled from "styled-components";
 import { Command, CornerDownLeft } from "lucide-react";
 
 import Button from "../primitives/Button";
-import { usePopover } from "../atoms/popoverAtom";
 import { electronAPI } from "../utils";
 import { useMouseForwarding } from "../hooks/useMouseForwarding";
+import { usePopover } from "../hooks/usePopover";
 
 const STEPS = {
   INPUT: "INPUT",
