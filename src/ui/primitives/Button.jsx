@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { useMouseForwarding } from "../hooks/useMouseForwarding";
+import { electronAPI } from "../utils";
+import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 
 const StyledButton = styled.div`
   background: transparent;
@@ -16,11 +18,18 @@ const StyledButton = styled.div`
   }
 `;
 
-const Button = ({ onClick, children, className }) => {
-  const ref = useMouseForwarding();
+const Button = ({ onClick, disappearing, children, className }) => {
+  const ref = useMouseForwarding(disappearing);
+
+  const handleClick = () => {
+    if (disappearing) {
+      electronAPI.sendRendererEvent(EVENT_CONSTANTS.MOUSE_FORWARDING, "EXIT");
+    }
+    onClick();
+  };
 
   return (
-    <StyledButton onClick={onClick} ref={ref} className={className}>
+    <StyledButton onClick={handleClick} ref={ref} className={className}>
       {children}
     </StyledButton>
   );
