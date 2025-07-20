@@ -14,100 +14,6 @@ const STEPS = {
   FOLLOWUP: "FOLLOWUP",
 };
 
-const ButtonContent = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-const ShortcutGroup = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-`;
-
-const ShortcutKey = styled.div`
-  background: #2a2a2a;
-  padding: 4px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const QuestionBoxContainer = styled.div`
-  ${({ fixed, top }) =>
-    fixed &&
-    `
-    position: fixed;
-    top: ${top}px;
-    left: 50%;
-    transform: translateX(-50%);
-  `}
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 4px;
-  border-radius: 8px;
-  z-index: 9999;
-  border: 1px solid #3a3a3a;
-  display: flex;
-  align-items: center;
-  width: ${({ fixed }) => (fixed ? "600px" : "auto")};
-  font-size: 0.8rem;
-`;
-
-const AnswerBoxContainer = styled.div`
-  position: fixed;
-  top: ${({ top }) => `${top}px`};
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 4px;
-  border-radius: 8px;
-  z-index: 9999;
-  border: 1px solid #3a3a3a;
-  width: 600px;
-  font-size: 0.8rem;
-`;
-
-const StyledInput = styled.input`
-  flex-grow: 1;
-  background: transparent;
-  border: none;
-  padding: 4px;
-  color: white;
-  border-radius: 8px;
-  &::placeholder {
-    color: grey;
-    font-weight: semibold;
-  }
-`;
-
-const InputActions = styled.div`
-  background: transparent;
-  width: 100px;
-  flex-shrink: 0;
-  flex-grow: 0;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-`;
-
-const SolidButton = styled(Button)`
-  background-color: rgba(74, 74, 74, 0.3);
-  &:hover {
-    background-color: rgba(74, 74, 74, 0.3);
-  }
-`;
-
-const Answer = styled.div`
-  padding: 4px;
-  min-height: 200px;
-  max-height: 400px;
-`;
-
 const getNextStep = (currentStep) => {
   switch (currentStep) {
     case STEPS.INPUT:
@@ -245,4 +151,97 @@ const Chat = () => {
   );
 };
 
+const ButtonContent = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const ShortcutGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+
+const ShortcutKey = styled.div`
+  background: #2a2a2a;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const QuestionBoxContainer = styled.div`
+  ${({ fixed, top }) =>
+    fixed &&
+    `
+    position: fixed;
+    top: ${top}px;
+    left: 50%;
+    transform: translateX(-50%);
+  `}
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 4px;
+  border-radius: 8px;
+  z-index: 9999;
+  border: 1px solid #3a3a3a;
+  display: flex;
+  align-items: center;
+  width: ${({ fixed }) => (fixed ? "600px" : "auto")};
+  font-size: 0.8rem;
+`;
+
+const AnswerBoxContainer = styled.div`
+  position: fixed;
+  top: ${({ top }) => `${top}px`};
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 4px;
+  border-radius: 8px;
+  z-index: 9999;
+  border: 1px solid #3a3a3a;
+  width: 600px;
+  font-size: 0.8rem;
+`;
+
+const StyledInput = styled.input`
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  padding: 4px;
+  color: white;
+  border-radius: 8px;
+  &::placeholder {
+    color: grey;
+    font-weight: semibold;
+  }
+`;
+
+const InputActions = styled.div`
+  background: transparent;
+  width: 100px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+const SolidButton = styled(Button)`
+  background-color: rgba(74, 74, 74, 0.3);
+  &:hover {
+    background-color: rgba(74, 74, 74, 0.3);
+  }
+`;
+
+const Answer = styled.div`
+  padding: 4px;
+  min-height: 200px;
+  max-height: 400px;
+`;
 export default Chat;

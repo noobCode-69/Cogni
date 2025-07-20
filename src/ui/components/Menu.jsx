@@ -10,65 +10,6 @@ import { EyeOff } from "lucide-react";
 import { useTrayPosition } from "../hooks/useTrayPosition";
 import { usePopover } from "../hooks/usePopover";
 
-const SolidButton = styled(Button)`
-  background-color: #3b3b3d;
-  &:hover {
-    background-color: #3b3b3d;
-  }
-`;
-
-const MenuContainer = styled.div`
-  position: fixed;
-  top: ${({ top }) => `${top}px`};
-  left: ${({ left }) => `${left}px`};
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-  padding: 12px 8px;
-  border-radius: 8px;
-  z-index: 9999;
-  border: 1px solid #3a3a3a;
-`;
-
-const MenuTitle = styled.div`
-  font-size: 0.75rem;
-  font-weight: bold;
-`;
-
-const Divider = styled.div`
-  margin: 10px 0;
-  border-bottom: 1px solid #3a3a3a;
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-`;
-
-const ButtonFlex = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-const MenuActions = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: stretch;
-`;
-
-const CenteredText = styled.div`
-  width: 100%;
-  text-align: center;
-`;
-
-const MenuHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
 const Menu = ({ moveTray }) => {
   const [isIncognito, setIsIncognito] = useState(false);
 
@@ -148,5 +89,64 @@ const Menu = ({ moveTray }) => {
     </>
   );
 };
+
+const SolidButton = styled(Button)`
+  background-color: #3b3b3d;
+  &:hover {
+    background-color: #3b3b3d;
+  }
+`;
+
+const MenuContainer = styled.div`
+  position: fixed;
+  top: ${({ top }) => `${top}px`};
+  left: ${({ left }) => `${left}px`};
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 12px 8px;
+  border-radius: 8px;
+  z-index: 9999;
+  border: 1px solid #3a3a3a;
+`;
+
+const MenuTitle = styled.div`
+  font-size: 0.75rem;
+  font-weight: bold;
+`;
+
+const Divider = styled.div`
+  margin: 10px 0;
+  border-bottom: 1px solid #3a3a3a;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+`;
+
+const ButtonFlex = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const MenuActions = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: stretch;
+`;
+
+const CenteredText = styled.div`
+  width: 100%;
+  text-align: center;
+`;
+
+const MenuHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 
 export default Menu;
