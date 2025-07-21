@@ -114,4 +114,10 @@ export class MainWindowManager {
       window.on(event, callback);
     }
   }
+  focus() {
+    const window = this.getWindow();
+    if (window) {
+      window.focus();
+    }
+  }
 }

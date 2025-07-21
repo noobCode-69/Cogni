@@ -30,8 +30,8 @@ export const keyboardShortcuts = [
     action: "CMD_ENTER",
     sendToRenderer: true,
     dynamic: true,
-    onBeforeSend: ({ window }) => {
-      window.focus();
+    onBeforeSend: ({ mainWindowManager }) => {
+      mainWindowManager.focus();
     },
   },
 ];
