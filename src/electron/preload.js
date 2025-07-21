@@ -13,4 +13,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
   onWindowBlur: (callback) => {
     ipcRenderer.on(EVENT_CONSTANTS.WINDOW_BLUR, (_, data) => callback(data));
   },
+  takeScreenshot: () => ipcRenderer.invoke(EVENT_CONSTANTS.TAKE_SCREENSHOT),
 });

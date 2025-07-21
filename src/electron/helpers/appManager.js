@@ -1,4 +1,4 @@
-import { app, ipcMain } from "electron";
+import { app, ipcMain, desktopCapturer } from "electron";
 import { MainWindowManager } from "./mainWindowManager.js";
 import { ShortcutManager } from "./shortCutManager.js";
 import { EVENT_CONSTANTS } from "../renderUtils.js";
@@ -53,6 +53,20 @@ export class AppManager {
 
     ipcMain.on(EVENT_CONSTANTS.TOGGLE_INCOGNITO_MODE, (_event, payload) => {
       this.mainWindowManager.toggleIncognitoMode(payload);
+    });
+
+    ipcMain.handle(EVENT_CONSTANTS.TAKE_SCREENSHOT, async () => {
+      const { screen } = require("electron");
+      const primaryDisplay = screen.getPrimaryDisplay();
+      const { width, height } = primaryDisplay.workAreaSize;
+
+      const sources = await desktopCapturer.getSources({
+        types: ["window"],
+        thumbnailSize: { width, height },
+      });
+
+      const screenSource = sources[0];
+      return screenSource.thumbnail.toDataURL();
     });
   }
 }
