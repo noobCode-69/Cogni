@@ -7,6 +7,8 @@ import Button from "../primitives/Button";
 import { electronAPI } from "../utils";
 import { useMouseForwarding } from "../hooks/useMouseForwarding";
 import { usePopover } from "../hooks/usePopover";
+import { openaiChatStream } from "../ai-utils/openai";
+import Markdown from "react-markdown";
 
 const STEPS = {
   INPUT: "INPUT",
@@ -28,14 +30,13 @@ const getNextStep = (currentStep) => {
 };
 
 const InputBox = ({ coords, setStep, fixed = true, makeQuery }) => {
-  const [queryInput, setQueryInput] = useState("");
   const containerRef = useMouseForwarding();
   const inputRef = useRef(null);
 
   const handleSubmit = () => {
-    makeQuery(queryInput);
+    const inputValue = inputRef.current?.value || "";
+    makeQuery(inputValue);
     setStep(STEPS.ANSWER);
-    setQueryInput("");
   };
 
   useEffect(() => {
@@ -53,14 +54,7 @@ const InputBox = ({ coords, setStep, fixed = true, makeQuery }) => {
 
   return (
     <QuestionBoxContainer ref={containerRef} fixed={fixed} top={coords.top}>
-      <StyledInput
-        ref={inputRef}
-        value={queryInput}
-        onChange={(e) => {
-          setQueryInput(e.target.value);
-        }}
-        placeholder="Ask about your screen"
-      />
+      <StyledInput ref={inputRef} placeholder="Ask about your screen" />
       <InputActions>
         <SolidButton disappearing={true} onClick={handleSubmit}>
           <ButtonContent>
@@ -75,9 +69,11 @@ const InputBox = ({ coords, setStep, fixed = true, makeQuery }) => {
   );
 };
 
-const AnswerBox = ({ coords, step, setStep, makeQuery }) => (
+const AnswerBox = ({ coords, step, setStep, makeQuery, answer }) => (
   <AnswerBoxContainer top={coords.top}>
-    <Answer>AnswerBox</Answer>
+    <Answer>
+      <Markdown>{answer}</Markdown>
+    </Answer>
     {step === STEPS.FOLLOWUP && (
       <InputBox
         makeQuery={makeQuery}
@@ -89,7 +85,7 @@ const AnswerBox = ({ coords, step, setStep, makeQuery }) => (
   </AnswerBoxContainer>
 );
 
-const StepRenderer = ({ step, coords, setStep, makeQuery }) => {
+const StepRenderer = ({ step, coords, setStep, makeQuery, answer }) => {
   switch (step) {
     case STEPS.INPUT:
       return (
@@ -108,6 +104,7 @@ const StepRenderer = ({ step, coords, setStep, makeQuery }) => {
           step={step}
           setStep={setStep}
           makeQuery={makeQuery}
+          answer={answer}
         />
       );
     default:
@@ -120,6 +117,7 @@ const Chat = () => {
   const [step, setStep] = useState(STEPS.INPUT);
   const buttonRef = useRef(null);
   const [coords, setCoords] = useState({ top: 0 });
+  const [answer, setAnswer] = useState("");
 
   useEffect(() => {
     if (isOpen && buttonRef.current) {
@@ -153,7 +151,16 @@ const Chat = () => {
   };
 
   const makeQuery = (query) => {
-    console.log(`${query}`);
+    openaiChatStream({
+      userMessage: query,
+      onChunk: (chunk) => {
+        setAnswer((prev) => prev + chunk);
+      },
+      onFinish: () => {},
+      onError: () => {
+        setAnswer("");
+      },
+    });
   };
 
   return (
@@ -181,6 +188,7 @@ const Chat = () => {
             coords={coords}
             setStep={setStep}
             makeQuery={makeQuery}
+            answer={answer}
           />,
           document.getElementById("root-portal")
         )}
