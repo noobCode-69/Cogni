@@ -32,15 +32,13 @@ const Dot = styled.span`
   }
 `;
 
+const LoadingText = styled.span`
+  margin-right: 4px;
+`;
+
 const LoadingDots = () => (
   <LoadingWrapper>
-    <span
-      style={{
-        marginRight: "4px",
-      }}
-    >
-      Thinking
-    </span>
+    <LoadingText>Thinking</LoadingText>
     <Dot />
     <Dot />
     <Dot />

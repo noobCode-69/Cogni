@@ -15,6 +15,7 @@ import { useAnswer } from "../hooks/useAnswer";
 import LoadingDots from "./Loading";
 import { X } from "lucide-react";
 import { closeAllPopovers } from "../atoms/popoverAtom";
+import IconButton from "../primitives/IconButton";
 
 const getNextStep = (currentStep) => {
   switch (currentStep) {
@@ -72,30 +73,28 @@ const InputBox = ({ coords, fixed = true, makeQuery }) => {
 
 const CloseAnswerPopover = () => {
   return (
-    <SolidButton onClick={closeAllPopovers} disappearing={true}>
-      <X size={12} />
-    </SolidButton>
+    <SolidIconButton onClick={closeAllPopovers} disappearing={true}>
+      <X size={10} />
+    </SolidIconButton>
   );
 };
 
 const AnswerBox = ({ coords, makeQuery }) => {
   const { chatStep } = useChatStep();
-  const { answer, isLoading } = useAnswer();
+  const { answer, isLoading, lastQuery } = useAnswer();
+  const loading = isLoading && !answer;
   return (
     <AnswerBoxContainer top={coords.top}>
       <Answer>
-        {isLoading && !answer ? (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
+        <AnswerTray>
+          {loading ? (
             <LoadingDots />
-            <CloseAnswerPopover />
-          </div>
-        ) : (
+          ) : (
+            <LastQuestionBlock>{lastQuery}</LastQuestionBlock>
+          )}
+          <CloseAnswerPopover />
+        </AnswerTray>
+        {!loading && (
           <MarkdownPreview
             source={answer}
             style={{
@@ -130,7 +129,7 @@ const Chat = () => {
   const { chatStep, setChatStep } = useChatStep();
   const buttonRef = useRef(null);
   const [coords, setCoords] = useState({ top: 0 });
-  const { setAnswer, setIsLoading, setError } = useAnswer();
+  const { setAnswer, setIsLoading, setError, setLastQuery } = useAnswer();
 
   useEffect(() => {
     if (isOpen && buttonRef.current) {
@@ -164,6 +163,7 @@ const Chat = () => {
   };
 
   const makeQuery = (query) => {
+    setLastQuery(query);
     setIsLoading(true);
     setAnswer("");
     openaiChatStream({
@@ -297,6 +297,14 @@ const SolidButton = styled(Button)`
   }
 `;
 
+const SolidIconButton = styled(IconButton)`
+  background-color: rgba(74, 74, 74, 0.3);
+  border-radius: 50%;
+  &:hover {
+    background-color: rgba(74, 74, 74, 0.3);
+  }
+`;
+
 const Answer = styled.div`
   padding: 4px;
   padding-top: 10px;
@@ -304,4 +312,18 @@ const Answer = styled.div`
   max-height: 400px;
   overflow-y: scroll;
 `;
+
+const AnswerTray = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+`;
+
+const LastQuestionBlock = styled.div`
+  background-color: rgba(74, 74, 74, 0.3);
+  border-radius: 4px;
+  padding: 5px 10px;
+`;
+
 export default Chat;
