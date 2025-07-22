@@ -28,7 +28,7 @@ const Tray = () => {
     <FixedCenteredContainer>
       <SolidButton>
         <ButtonContent>
-          <span>API Keys</span>
+          <span>API Key</span>
         </ButtonContent>
       </SolidButton>
       <Chat />
