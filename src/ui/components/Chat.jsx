@@ -86,7 +86,7 @@ const AnswerBox = ({ coords, makeQuery, answer }) => {
   );
 };
 
-const StepRenderer = ({ step, coords, setStep, makeQuery, answer }) => {
+const StepRenderer = ({ coords, makeQuery, answer }) => {
   const { chatStep } = useChatStep();
 
   switch (chatStep) {
