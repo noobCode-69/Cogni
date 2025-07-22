@@ -1,10 +1,16 @@
 import { useAtom } from "jotai";
-import { isLoadingAtom, answerAtom, errorAtom } from "../atoms/answerAtom";
+import {
+  isLoadingAtom,
+  answerAtom,
+  errorAtom,
+  lastQueryAtom,
+} from "../atoms/answerAtom";
 
 export const useAnswer = () => {
   const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
   const [answer, setAnswer] = useAtom(answerAtom);
   const [error, setError] = useAtom(errorAtom);
+  const [lastQuery, setLastQuery] = useAtom(lastQueryAtom);
 
   return {
     isLoading,
@@ -13,5 +19,7 @@ export const useAnswer = () => {
     setAnswer,
     error,
     setError,
+    lastQuery,
+    setLastQuery,
   };
 };
