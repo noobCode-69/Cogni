@@ -16,7 +16,6 @@ const App = () => {
         openPopoverIdRef.current === 2 &&
         chatStepRef.current !== STEPS.INPUT
       ) {
-        console.log("answer");
         return;
       }
       if (blurred) {
