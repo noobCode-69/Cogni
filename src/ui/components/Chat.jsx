@@ -8,13 +8,9 @@ import { electronAPI } from "../utils";
 import { useMouseForwarding } from "../hooks/useMouseForwarding";
 import { usePopover } from "../hooks/usePopover";
 import { openaiChatStream } from "../ai-utils/openai";
-import Markdown from "react-markdown";
-
-const STEPS = {
-  INPUT: "INPUT",
-  ANSWER: "ANSWER",
-  FOLLOWUP: "FOLLOWUP",
-};
+import MarkdownPreview from "@uiw/react-markdown-preview";
+import { STEPS } from "../atoms/chatStepAtom";
+import { useChatStep } from "../hooks/useChatStep";
 
 const getNextStep = (currentStep) => {
   switch (currentStep) {
@@ -30,13 +26,14 @@ const getNextStep = (currentStep) => {
 };
 
 const InputBox = ({ coords, setStep, fixed = true, makeQuery }) => {
+  const { setChatStep } = useChatStep();
   const containerRef = useMouseForwarding();
   const inputRef = useRef(null);
 
   const handleSubmit = () => {
     const inputValue = inputRef.current?.value || "";
     makeQuery(inputValue);
-    setStep(STEPS.ANSWER);
+    setChatStep(STEPS.ANSWER);
   };
 
   useEffect(() => {
@@ -69,43 +66,36 @@ const InputBox = ({ coords, setStep, fixed = true, makeQuery }) => {
   );
 };
 
-const AnswerBox = ({ coords, step, setStep, makeQuery, answer }) => (
-  <AnswerBoxContainer top={coords.top}>
-    <Answer>
-      <Markdown>{answer}</Markdown>
-    </Answer>
-    {step === STEPS.FOLLOWUP && (
-      <InputBox
-        makeQuery={makeQuery}
-        fixed={false}
-        coords={coords}
-        setStep={setStep}
-      />
-    )}
-  </AnswerBoxContainer>
-);
+const AnswerBox = ({ coords, makeQuery, answer }) => {
+  const { chatStep } = useChatStep();
+  return (
+    <AnswerBoxContainer top={coords.top}>
+      <Answer>
+        <MarkdownPreview
+          source={answer}
+          style={{
+            fontSize: "0.7rem",
+            background: "transparent",
+          }}
+        />
+      </Answer>
+      {chatStep === STEPS.FOLLOWUP && (
+        <InputBox makeQuery={makeQuery} fixed={false} coords={coords} />
+      )}
+    </AnswerBoxContainer>
+  );
+};
 
 const StepRenderer = ({ step, coords, setStep, makeQuery, answer }) => {
-  switch (step) {
+  const { chatStep } = useChatStep();
+
+  switch (chatStep) {
     case STEPS.INPUT:
-      return (
-        <InputBox
-          fixed={true}
-          coords={coords}
-          setStep={setStep}
-          makeQuery={makeQuery}
-        />
-      );
+      return <InputBox fixed={true} coords={coords} makeQuery={makeQuery} />;
     case STEPS.ANSWER:
     case STEPS.FOLLOWUP:
       return (
-        <AnswerBox
-          coords={coords}
-          step={step}
-          setStep={setStep}
-          makeQuery={makeQuery}
-          answer={answer}
-        />
+        <AnswerBox coords={coords} makeQuery={makeQuery} answer={answer} />
       );
     default:
       return null;
@@ -114,7 +104,7 @@ const StepRenderer = ({ step, coords, setStep, makeQuery, answer }) => {
 
 const Chat = () => {
   const { isOpen, toggle, isOpenRef } = usePopover(2);
-  const [step, setStep] = useState(STEPS.INPUT);
+  const { chatStep, setChatStep } = useChatStep();
   const buttonRef = useRef(null);
   const [coords, setCoords] = useState({ top: 0 });
   const [answer, setAnswer] = useState("");
@@ -129,7 +119,7 @@ const Chat = () => {
   useEffect(() => {
     const handleShortcut = () => {
       if (isOpenRef.current) {
-        setStep((prev) => getNextStep(prev));
+        setChatStep((prev) => getNextStep(prev));
       } else {
         toggle();
       }
@@ -142,10 +132,10 @@ const Chat = () => {
     if (!isOpenRef.current) {
       toggle();
     } else {
-      if (step === STEPS.INPUT) {
+      if (chatStep === STEPS.INPUT) {
         toggle();
       } else {
-        setStep((prev) => getNextStep(prev));
+        setChatStep((prev) => getNextStep(prev));
       }
     }
   };
@@ -184,9 +174,7 @@ const Chat = () => {
       {isOpen &&
         ReactDOM.createPortal(
           <StepRenderer
-            step={step}
             coords={coords}
-            setStep={setStep}
             makeQuery={makeQuery}
             answer={answer}
           />,
@@ -286,7 +274,7 @@ const SolidButton = styled(Button)`
 
 const Answer = styled.div`
   padding: 4px;
-  min-height: 200px;
   max-height: 400px;
+  overflow-y: scroll;
 `;
 export default Chat;

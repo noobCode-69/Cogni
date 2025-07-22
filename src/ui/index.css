@@ -140,3 +140,22 @@ select:focus {
   outline: none;
   box-shadow: none;
 }
+
+.wmde-markdown {
+  background-color: transparent;
+}
+
+.wmde-markdown h1,
+.wmde-markdown h2,
+.wmde-markdown h3,
+.wmde-markdown h4 {
+  font-size: 0.7rem;
+}
+
+.wmde-markdown pre {
+  background-color: transparent;
+}
+
+.wmde-markdown pre .copied {
+  display: none;
+}

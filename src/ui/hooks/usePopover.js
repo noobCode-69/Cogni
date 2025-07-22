@@ -6,13 +6,24 @@ export const usePopover = (id) => {
   const [openPopoverId, setOpenPopoverId] = useAtom(popoverAtom);
 
   const isOpen = openPopoverId === id;
+  const openPopoverIdRef = useRef(openPopoverId);
   const isOpenRef = useRef(isOpen);
   useEffect(() => {
     isOpenRef.current = isOpen;
   }, [isOpen]);
 
+  useEffect(() => {
+    openPopoverIdRef.current = openPopoverId;
+  }, [openPopoverId]);
+
   const toggle = () => {
     setOpenPopoverId((prev) => (prev === id ? null : id));
   };
-  return { isOpen, toggle, isOpenRef };
+  return {
+    isOpen,
+    toggle,
+    isOpenRef: isOpenRef,
+    openPopoverId,
+    openPopoverIdRef: openPopoverIdRef,
+  };
 };
