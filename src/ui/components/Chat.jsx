@@ -11,6 +11,10 @@ import { openaiChatStream } from "../ai-utils/openai";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { STEPS } from "../atoms/chatStepAtom";
 import { useChatStep } from "../hooks/useChatStep";
+import { useAnswer } from "../hooks/useAnswer";
+import LoadingDots from "./Loading";
+import { X } from "lucide-react";
+import { closeAllPopovers } from "../atoms/popoverAtom";
 
 const getNextStep = (currentStep) => {
   switch (currentStep) {
@@ -25,7 +29,7 @@ const getNextStep = (currentStep) => {
   }
 };
 
-const InputBox = ({ coords, setStep, fixed = true, makeQuery }) => {
+const InputBox = ({ coords, fixed = true, makeQuery }) => {
   const { setChatStep } = useChatStep();
   const containerRef = useMouseForwarding();
   const inputRef = useRef(null);
@@ -66,18 +70,40 @@ const InputBox = ({ coords, setStep, fixed = true, makeQuery }) => {
   );
 };
 
-const AnswerBox = ({ coords, makeQuery, answer }) => {
+const CloseAnswerPopover = () => {
+  return (
+    <SolidButton onClick={closeAllPopovers} disappearing={true}>
+      <X size={12} />
+    </SolidButton>
+  );
+};
+
+const AnswerBox = ({ coords, makeQuery }) => {
   const { chatStep } = useChatStep();
+  const { answer, isLoading } = useAnswer();
   return (
     <AnswerBoxContainer top={coords.top}>
       <Answer>
-        <MarkdownPreview
-          source={answer}
-          style={{
-            fontSize: "0.7rem",
-            background: "transparent",
-          }}
-        />
+        {isLoading && !answer ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <LoadingDots />
+            <CloseAnswerPopover />
+          </div>
+        ) : (
+          <MarkdownPreview
+            source={answer}
+            style={{
+              fontSize: "0.7rem",
+              background: "transparent",
+            }}
+          />
+        )}
       </Answer>
       {chatStep === STEPS.FOLLOWUP && (
         <InputBox makeQuery={makeQuery} fixed={false} coords={coords} />
@@ -86,17 +112,14 @@ const AnswerBox = ({ coords, makeQuery, answer }) => {
   );
 };
 
-const StepRenderer = ({ coords, makeQuery, answer }) => {
+const StepRenderer = ({ coords, makeQuery }) => {
   const { chatStep } = useChatStep();
-
   switch (chatStep) {
     case STEPS.INPUT:
       return <InputBox fixed={true} coords={coords} makeQuery={makeQuery} />;
     case STEPS.ANSWER:
     case STEPS.FOLLOWUP:
-      return (
-        <AnswerBox coords={coords} makeQuery={makeQuery} answer={answer} />
-      );
+      return <AnswerBox coords={coords} makeQuery={makeQuery} />;
     default:
       return null;
   }
@@ -107,7 +130,7 @@ const Chat = () => {
   const { chatStep, setChatStep } = useChatStep();
   const buttonRef = useRef(null);
   const [coords, setCoords] = useState({ top: 0 });
-  const [answer, setAnswer] = useState("");
+  const { setAnswer, setIsLoading, setError } = useAnswer();
 
   useEffect(() => {
     if (isOpen && buttonRef.current) {
@@ -141,14 +164,20 @@ const Chat = () => {
   };
 
   const makeQuery = (query) => {
+    setIsLoading(true);
+    setAnswer("");
     openaiChatStream({
       userMessage: query,
       onChunk: (chunk) => {
         setAnswer((prev) => prev + chunk);
       },
-      onFinish: () => {},
+      onFinish: () => {
+        setIsLoading(false);
+      },
       onError: () => {
         setAnswer("");
+        setIsLoading(false);
+        setError(true);
       },
     });
   };
@@ -173,11 +202,7 @@ const Chat = () => {
 
       {isOpen &&
         ReactDOM.createPortal(
-          <StepRenderer
-            coords={coords}
-            makeQuery={makeQuery}
-            answer={answer}
-          />,
+          <StepRenderer coords={coords} makeQuery={makeQuery} />,
           document.getElementById("root-portal")
         )}
     </>
@@ -274,6 +299,8 @@ const SolidButton = styled(Button)`
 
 const Answer = styled.div`
   padding: 4px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   max-height: 400px;
   overflow-y: scroll;
 `;
