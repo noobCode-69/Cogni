@@ -40,11 +40,12 @@ const Chat = () => {
   }, [isOpen]);
 
   useEffect(() => {
-    const handleShortcut = () => {
+    const handleShortcut = (accelerator) => {
+      if (accelerator !== "CMD_ENTER") return;
       if (!isOpenRef.current) {
         toggle();
       } else {
-        if (chatStep === STEPS.INPUT) toggle();
+        if (chatStepRef.current === STEPS.INPUT) toggle();
         else setChatStep((prev) => getNextStep(prev));
       }
     };
