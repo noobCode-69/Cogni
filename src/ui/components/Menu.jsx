@@ -12,7 +12,6 @@ import { usePopover } from "../hooks/usePopover";
 
 const Menu = ({ moveTray }) => {
   const [isIncognito, setIsIncognito] = useState(false);
-
   const { trayPosition } = useTrayPosition();
   const { isOpen, toggle } = usePopover(1);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
@@ -50,7 +49,6 @@ const Menu = ({ moveTray }) => {
           <EllipsisVertical size={14} />
         </Button>
       </div>
-
       {isOpen &&
         ReactDOM.createPortal(
           <MenuContainer ref={menuRef} top={coords.top} left={coords.left}>

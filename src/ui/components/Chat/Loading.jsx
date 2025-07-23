@@ -1,5 +1,14 @@
 import styled, { keyframes } from "styled-components";
 
+const LoadingDots = () => (
+  <LoadingWrapper>
+    <LoadingText>Thinking</LoadingText>
+    <Dot />
+    <Dot />
+    <Dot />
+  </LoadingWrapper>
+);
+
 const LoadingWrapper = styled.div`
   display: flex;
   height: 100%;
@@ -35,14 +44,5 @@ const Dot = styled.span`
 const LoadingText = styled.span`
   margin-right: 4px;
 `;
-
-const LoadingDots = () => (
-  <LoadingWrapper>
-    <LoadingText>Thinking</LoadingText>
-    <Dot />
-    <Dot />
-    <Dot />
-  </LoadingWrapper>
-);
 
 export default LoadingDots;

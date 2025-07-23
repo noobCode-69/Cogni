@@ -1,11 +1,9 @@
 import styled from "styled-components";
 import { X } from "lucide-react";
 import MarkdownPreview from "@uiw/react-markdown-preview";
-
 import { useAnswer } from "../../hooks/useAnswer";
 import { useChat } from "../../hooks/useChat";
 import { STEPS } from "../../atoms/chatAtom";
-
 import InputBox from "./InputBox";
 import IconButton from "../../primitives/IconButton";
 import LoadingDots from "./Loading";
@@ -57,8 +55,6 @@ const AnswerBox = ({ coords, makeQuery }) => {
   );
 };
 
-export default AnswerBox;
-
 const Container = styled.div`
   position: fixed;
   top: ${({ top }) => `${top}px`};
@@ -98,3 +94,5 @@ const CloseButton = styled(IconButton)`
     background-color: rgba(74, 74, 74, 0.3);
   }
 `;
+
+export default AnswerBox;

@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { Command, CornerDownLeft } from "lucide-react";
 import styled from "styled-components";
-
 import Button from "../../primitives/Button";
 import { usePopover } from "../../hooks/usePopover";
 import { useChat } from "../../hooks/useChat";
@@ -10,6 +9,19 @@ import { useAnswer } from "../../hooks/useAnswer";
 import { openaiChatStream } from "../../ai-utils/openai";
 import StepRenderer from "./StepRenderer";
 import { STEPS } from "../../atoms/chatAtom";
+
+const getNextStep = (currentStep) => {
+  switch (currentStep) {
+    case STEPS.INPUT:
+      return STEPS.ANSWER;
+    case STEPS.ANSWER:
+      return STEPS.FOLLOWUP;
+    case STEPS.FOLLOWUP:
+      return STEPS.ANSWER;
+    default:
+      return STEPS.INPUT;
+  }
+};
 
 const Chat = () => {
   const { isOpen, toggle, isOpenRef } = usePopover(2);
@@ -49,7 +61,6 @@ const Chat = () => {
     setLastQuery(query);
     setIsLoading(true);
     setAnswer("");
-
     openaiChatStream({
       userMessage: query,
       onChunk: (chunk) => setAnswer((prev) => prev + chunk),
@@ -79,7 +90,6 @@ const Chat = () => {
           </ButtonContent>
         </Button>
       </div>
-
       {isOpen &&
         ReactDOM.createPortal(
           <StepRenderer coords={coords} makeQuery={makeQuery} />,
@@ -88,8 +98,6 @@ const Chat = () => {
     </>
   );
 };
-
-export default Chat;
 
 const ButtonContent = styled.div`
   display: flex;
@@ -111,15 +119,4 @@ const ShortcutKey = styled.div`
   justify-content: center;
 `;
 
-const getNextStep = (currentStep) => {
-  switch (currentStep) {
-    case STEPS.INPUT:
-      return STEPS.ANSWER;
-    case STEPS.ANSWER:
-      return STEPS.FOLLOWUP;
-    case STEPS.FOLLOWUP:
-      return STEPS.ANSWER;
-    default:
-      return STEPS.INPUT;
-  }
-};
+export default Chat;

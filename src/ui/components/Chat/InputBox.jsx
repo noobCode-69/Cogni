@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { CornerDownLeft } from "lucide-react";
-
 import Button from "../../primitives/Button";
 import { useMouseForwarding } from "../../hooks/useMouseForwarding";
 import { useChat } from "../../hooks/useChat";
@@ -12,12 +11,6 @@ const InputBox = ({ coords, fixed = true, makeQuery }) => {
   const containerRef = useMouseForwarding();
   const inputRef = useRef(null);
 
-  const handleSubmit = () => {
-    const value = inputRef.current?.value || "";
-    makeQuery(value);
-    setChatStep(STEPS.ANSWER);
-  };
-
   useEffect(() => {
     const input = inputRef.current;
     input?.focus();
@@ -25,6 +18,12 @@ const InputBox = ({ coords, fixed = true, makeQuery }) => {
     input?.addEventListener("keydown", keyHandler);
     return () => input?.removeEventListener("keydown", keyHandler);
   }, []);
+
+  const handleSubmit = () => {
+    const value = inputRef.current?.value || "";
+    makeQuery(value);
+    setChatStep(STEPS.ANSWER);
+  };
 
   return (
     <Container ref={containerRef} fixed={fixed} top={coords.top}>
@@ -44,8 +43,6 @@ const InputBox = ({ coords, fixed = true, makeQuery }) => {
     </Container>
   );
 };
-
-export default InputBox;
 
 const Container = styled.div`
   ${({ fixed, top }) =>
@@ -98,3 +95,5 @@ const KeyIcon = styled.div`
   border-radius: 4px;
   margin-left: 8px;
 `;
+
+export default InputBox;
