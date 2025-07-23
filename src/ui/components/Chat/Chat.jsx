@@ -67,6 +67,7 @@ const Chat = () => {
     setLastQuery(query);
     setIsLoading(true);
     setAnswer("");
+    setError(null);
     openaiChatStream({
       userMessage: query,
       signal: controller.signal,
@@ -75,10 +76,10 @@ const Chat = () => {
         setIsLoading(false);
         reset();
       },
-      onError: () => {
+      onError: (error) => {
         setAnswer("");
         setIsLoading(false);
-        setError(true);
+        setError(error);
         reset();
       },
     });
