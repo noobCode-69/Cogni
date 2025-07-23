@@ -73,6 +73,11 @@ const AnswerArea = styled.div`
   padding: 10px 4px;
   max-height: 400px;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 const Header = styled.div`
