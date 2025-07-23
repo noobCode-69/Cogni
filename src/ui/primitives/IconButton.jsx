@@ -3,7 +3,13 @@ import { useMouseForwarding } from "../hooks/useMouseForwarding";
 import { electronAPI } from "../utils";
 import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 
-const IconButton = ({ onClick, disappearing, children, className }) => {
+const IconButton = ({
+  onClick,
+  shouldAllowMouseForwarding = true,
+  disappearing,
+  children,
+  className,
+}) => {
   const ref = useMouseForwarding(disappearing);
 
   const handleClick = () => {
@@ -14,7 +20,11 @@ const IconButton = ({ onClick, disappearing, children, className }) => {
   };
 
   return (
-    <StyledIconButton onClick={handleClick} ref={ref} className={className}>
+    <StyledIconButton
+      onClick={handleClick}
+      ref={shouldAllowMouseForwarding ? ref : null}
+      className={className}
+    >
       {children}
     </StyledIconButton>
   );

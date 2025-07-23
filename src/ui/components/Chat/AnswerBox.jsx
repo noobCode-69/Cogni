@@ -20,7 +20,11 @@ const AnswerBox = ({ coords, makeQuery }) => {
     <Container top={coords.top}>
       <AnswerArea>
         <Header>
-          {loading ? <LoadingDots /> : <LastQuestion>{lastQuery}</LastQuestion>}
+          {loading ? (
+            <LoadingDots />
+          ) : (
+            lastQuery && <LastQuestion>{lastQuery}</LastQuestion>
+          )}
           <CloseButton disappearing={true} onClick={closeAllPopovers}>
             <X size={10} />
           </CloseButton>

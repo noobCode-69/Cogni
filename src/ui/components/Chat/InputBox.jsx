@@ -30,7 +30,7 @@ const InputBox = ({ coords, fixed = true, makeQuery }) => {
     <Container ref={containerRef} fixed={fixed} top={coords.top}>
       <StyledInput ref={inputRef} placeholder="Ask about your screen" />
       <InputActions>
-        <SubmitButton disappearing onClick={handleSubmit}>
+        <SubmitButton disappearing={true} onClick={handleSubmit}>
           <span>Submit</span>
           <KeyIcon>
             <CornerDownLeft size={9} />
