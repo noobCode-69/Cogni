@@ -9,6 +9,7 @@ import { useAnswer } from "../../hooks/useAnswer";
 import { openaiChatStream } from "../../ai-utils/openai";
 import StepRenderer from "./StepRenderer";
 import { STEPS } from "../../atoms/chatAtom";
+import { useAbortController } from "../../hooks/useAbortController";
 
 const getNextStep = (currentStep) => {
   switch (currentStep) {
@@ -29,6 +30,7 @@ const Chat = () => {
   const buttonRef = useRef(null);
   const [coords, setCoords] = useState({ top: 0 });
   const { setAnswer, setIsLoading, setError, setLastQuery } = useAnswer();
+  const { createNewController, reset } = useAbortController();
 
   useEffect(() => {
     if (isOpen && buttonRef.current) {
@@ -59,17 +61,23 @@ const Chat = () => {
   };
 
   const makeQuery = (query) => {
+    const controller = createNewController();
     setLastQuery(query);
     setIsLoading(true);
     setAnswer("");
     openaiChatStream({
       userMessage: query,
+      signal: controller.signal,
       onChunk: (chunk) => setAnswer((prev) => prev + chunk),
-      onFinish: () => setIsLoading(false),
+      onFinish: () => {
+        setIsLoading(false);
+        reset();
+      },
       onError: () => {
         setAnswer("");
         setIsLoading(false);
         setError(true);
+        reset();
       },
     });
   };
@@ -93,7 +101,7 @@ const Chat = () => {
       </div>
       {isOpen &&
         ReactDOM.createPortal(
-          <StepRenderer coords={coords} makeQuery={makeQuery} />,
+          <StepRenderer close={close} coords={coords} makeQuery={makeQuery} />,
           document.getElementById("root-portal")
         )}
     </>

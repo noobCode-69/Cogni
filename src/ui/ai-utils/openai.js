@@ -107,6 +107,7 @@ export async function openaiChatStream({
   onChunk,
   onFinish,
   onError,
+  signal,
 }) {
   const messages = [{ role: "system", content: systemPrompt }];
 
@@ -131,11 +132,16 @@ export async function openaiChatStream({
   (async () => {
     try {
       for await (const chunk of textStream) {
+        if (signal?.aborted) break;
         onChunk(chunk);
       }
-      onFinish?.();
+      if (!signal?.aborted) {
+        onFinish?.();
+      }
     } catch (err) {
-      onError?.(err);
+      if (!signal?.aborted) {
+        onError?.(err);
+      }
     }
   })();
 

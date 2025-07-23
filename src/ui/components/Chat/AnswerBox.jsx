@@ -9,16 +9,19 @@ import IconButton from "../../primitives/IconButton";
 import LoadingDots from "./Loading";
 import { closeAllPopovers } from "../../atoms/popoverAtom";
 import { useMouseForwarding } from "../../hooks/useMouseForwarding";
+import { useAbortController } from "../../hooks/useAbortController";
 
 const AnswerBox = ({ coords, makeQuery }) => {
   const { chatStep, setChatStep } = useChat();
   const { answer, isLoading, lastQuery } = useAnswer();
   const loading = isLoading && !answer;
   const containerRef = useMouseForwarding();
+  const { abort } = useAbortController();
 
   const handleCloseButton = () => {
     closeAllPopovers();
     setChatStep(STEPS.INPUT);
+    abort();
   };
 
   return (
