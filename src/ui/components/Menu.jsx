@@ -1,7 +1,13 @@
 import { useRef, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Button from "../primitives/Button";
-import { EllipsisVertical, MoveLeft, MoveRight } from "lucide-react";
+import {
+  Command,
+  EllipsisVertical,
+  MoveLeft,
+  MoveRight,
+  ChevronsUpDown,
+} from "lucide-react";
 import styled from "styled-components";
 import { electronAPI } from "../utils";
 import { EVENT_CONSTANTS } from "../../electron/renderUtils";
@@ -57,6 +63,33 @@ const Menu = ({ moveTray }) => {
               {isIncognito ? <EyeOff size={13} /> : <Eye size={13} />}
             </MenuHeader>
             <Divider />
+            <MenuActions>
+              <StyledRow>
+                Scroll Response
+                <ShortcutGroup>
+                  <ShortcutKey>
+                    <Command size={9} />
+                  </ShortcutKey>
+                  <ShortcutKey>
+                    <ChevronsUpDown size={9} />
+                  </ShortcutKey>
+                </ShortcutGroup>
+              </StyledRow>
+
+              <StyledRow>
+                Clear Response
+                <ShortcutGroup>
+                  <ShortcutKey>
+                    <Command size={9} />
+                  </ShortcutKey>
+                  <ShortcutKey>
+                    <span style={{ fontSize: "0.6rem" }}>R</span>
+                  </ShortcutKey>
+                </ShortcutGroup>
+              </StyledRow>
+            </MenuActions>
+            <Divider />
+
             <MenuActions>
               <ButtonGroup>
                 <SolidButton onClick={() => moveTray(-1)}>
@@ -121,6 +154,9 @@ const ButtonGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  & > * {
+    width: 100%;
+  }
 `;
 
 const ButtonFlex = styled.div`
@@ -145,6 +181,27 @@ const MenuHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+const ShortcutGroup = styled.div`
+  display: flex;
+  gap: 4px;
+`;
+
+const ShortcutKey = styled.div`
+  background: #2a2a2a;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StyledRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 `;
 
 export default Menu;
