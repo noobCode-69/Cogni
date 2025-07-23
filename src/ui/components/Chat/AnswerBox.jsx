@@ -10,22 +10,31 @@ import InputBox from "./InputBox";
 import IconButton from "../../primitives/IconButton";
 import LoadingDots from "./Loading";
 import { closeAllPopovers } from "../../atoms/popoverAtom";
+import { useMouseForwarding } from "../../hooks/useMouseForwarding";
 
 const AnswerBox = ({ coords, makeQuery }) => {
   const { chatStep } = useChat();
   const { answer, isLoading, lastQuery } = useAnswer();
   const loading = isLoading && !answer;
+  const containerRef = useMouseForwarding();
 
   return (
-    <Container top={coords.top}>
+    <Container ref={containerRef} top={coords.top}>
       <AnswerArea>
         <Header>
           {loading ? (
             <LoadingDots />
+          ) : lastQuery ? (
+            <LastQuestion>{lastQuery}</LastQuestion>
           ) : (
-            lastQuery && <LastQuestion>{lastQuery}</LastQuestion>
+            <div></div>
           )}
-          <CloseButton disappearing={true} onClick={closeAllPopovers}>
+
+          <CloseButton
+            shouldAllowMouseForwarding={false}
+            disappearing={true}
+            onClick={closeAllPopovers}
+          >
             <X size={10} />
           </CloseButton>
         </Header>
