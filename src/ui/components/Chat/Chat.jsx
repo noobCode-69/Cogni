@@ -39,10 +39,11 @@ const Chat = () => {
 
   useEffect(() => {
     const handleShortcut = () => {
-      if (isOpenRef.current) {
-        setChatStep((prev) => getNextStep(prev));
-      } else {
+      if (!isOpenRef.current) {
         toggle();
+      } else {
+        if (chatStep === STEPS.INPUT) toggle();
+        else setChatStep((prev) => getNextStep(prev));
       }
     };
     window.electronAPI.onKeyBoardShortcut(handleShortcut);
