@@ -26,7 +26,7 @@ const getNextStep = (currentStep) => {
 
 const Chat = () => {
   const { isOpen, toggle, isOpenRef } = usePopover(2);
-  const { chatStep, setChatStep } = useChat();
+  const { chatStep, setChatStep, chatStepRef } = useChat();
   const buttonRef = useRef(null);
   const [coords, setCoords] = useState({ top: 0 });
   const { setAnswer, setIsLoading, setError, setLastQuery } = useAnswer();
