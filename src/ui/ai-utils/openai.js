@@ -140,7 +140,10 @@ export async function openaiChatStream({
       }
     } catch (err) {
       if (!signal?.aborted) {
-        onError?.(err);
+        onError?.(
+          err ||
+            "Error fetching data. Please verify your API key is correct and try the request again."
+        );
       }
     }
   })();
