@@ -15,7 +15,7 @@ import { electronAPI } from "../../utils";
 
 const AnswerBox = ({ coords, makeQuery }) => {
   const { chatStep, setChatStep } = useChat();
-  const { answer, isLoading, lastQuery } = useAnswer();
+  const { answer, isLoading, lastQuery, error } = useAnswer();
   const loading = isLoading && !answer;
   const containerRef = useMouseForwarding();
   const answerAreaRef = useRef();
@@ -58,11 +58,15 @@ const AnswerBox = ({ coords, makeQuery }) => {
             <X size={10} />
           </CloseButton>
         </Header>
-        {!loading && (
+        {error ? (
+          <div>{error}</div>
+        ) : !loading ? (
           <MarkdownPreview
             source={answer}
             style={{ fontSize: "0.7rem", background: "transparent" }}
           />
+        ) : (
+          <></>
         )}
       </AnswerArea>
       {chatStep === STEPS.FOLLOWUP && (
