@@ -1,8 +1,8 @@
 import { useAtom } from "jotai";
-import { chatStepAtom } from "../atoms/chatStepAtom";
+import { chatStepAtom } from "../atoms/chatAtom";
 import { useEffect, useRef } from "react";
 
-export const useChatStep = () => {
+export const useChat = () => {
   const [chatStep, setChatStep] = useAtom(chatStepAtom);
   const chatStepRef = useRef(chatStep);
 
@@ -10,5 +10,5 @@ export const useChatStep = () => {
     chatStepRef.current = chatStep;
   }, [chatStep]);
 
-  return { chatStep, chatStepRef: chatStepRef, setChatStep };
+  return { chatStep, chatStepRef, setChatStep };
 };

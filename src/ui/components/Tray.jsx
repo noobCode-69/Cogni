@@ -5,7 +5,7 @@ import { Slash } from "lucide-react";
 import { electronAPI } from "../utils";
 import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 import Menu from "./Menu";
-import Chat from "./Chat";
+import Chat from "./Chat/Chat";
 import { useTrayPosition } from "../hooks/useTrayPosition";
 
 const Tray = () => {

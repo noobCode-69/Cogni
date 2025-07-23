@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import Tray from "./components/Tray";
 import { electronAPI } from "./utils";
 import { closeAllPopovers } from "./atoms/popoverAtom";
-import { useChatStep } from "./hooks/useChatStep";
+import { useChat } from "./hooks/useChat";
 import { usePopover } from "./hooks/usePopover";
-import { STEPS } from "./atoms/chatStepAtom";
+import { STEPS } from "./atoms/chatAtom";
 
 const App = () => {
-  const { chatStepRef } = useChatStep();
+  const { chatStepRef } = useChat();
   const { openPopoverIdRef } = usePopover();
   useEffect(() => {
     const handleBlur = (data) => {
