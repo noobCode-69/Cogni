@@ -35,4 +35,16 @@ export const keyboardShortcuts = [
       mainWindowManager.focus();
     },
   },
+  {
+    accelerator: "Command+Up",
+    action: "CMD_UP_ARROW",
+    sendToRenderer: true,
+    dynamic: true,
+  },
+  {
+    accelerator: "Command+Down",
+    action: "CMD_DOWN_ARROW",
+    sendToRenderer: true,
+    dynamic: true,
+  },
 ];

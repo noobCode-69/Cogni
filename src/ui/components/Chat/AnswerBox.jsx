@@ -10,12 +10,15 @@ import LoadingDots from "./Loading";
 import { closeAllPopovers } from "../../atoms/popoverAtom";
 import { useMouseForwarding } from "../../hooks/useMouseForwarding";
 import { useAbortController } from "../../hooks/useAbortController";
+import { useEffect, useRef } from "react";
+import { electronAPI } from "../../utils";
 
 const AnswerBox = ({ coords, makeQuery }) => {
   const { chatStep, setChatStep } = useChat();
   const { answer, isLoading, lastQuery } = useAnswer();
   const loading = isLoading && !answer;
   const containerRef = useMouseForwarding();
+  const answerAreaRef = useRef();
   const { abort } = useAbortController();
 
   const handleCloseButton = () => {
@@ -23,10 +26,21 @@ const AnswerBox = ({ coords, makeQuery }) => {
     setChatStep(STEPS.INPUT);
     abort();
   };
+  useEffect(() => {
+    const handleShortcut = (accelerator) => {
+      if (!answerAreaRef.current) return;
+      if (accelerator === "CMD_UP_ARROW") {
+        answerAreaRef.current.scrollBy({ top: -100, behavior: "smooth" });
+      } else if (accelerator === "CMD_DOWN_ARROW") {
+        answerAreaRef.current.scrollBy({ top: 100, behavior: "smooth" });
+      }
+    };
+    electronAPI.onKeyBoardShortcut(handleShortcut);
+  }, []);
 
   return (
     <Container ref={containerRef} top={coords.top}>
-      <AnswerArea>
+      <AnswerArea ref={answerAreaRef}>
         <Header>
           {loading ? (
             <LoadingDots />
