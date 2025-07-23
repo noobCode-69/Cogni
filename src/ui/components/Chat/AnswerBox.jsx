@@ -13,10 +13,15 @@ import { closeAllPopovers } from "../../atoms/popoverAtom";
 import { useMouseForwarding } from "../../hooks/useMouseForwarding";
 
 const AnswerBox = ({ coords, makeQuery }) => {
-  const { chatStep } = useChat();
+  const { chatStep, setChatStep } = useChat();
   const { answer, isLoading, lastQuery } = useAnswer();
   const loading = isLoading && !answer;
   const containerRef = useMouseForwarding();
+
+  const handleCloseButton = () => {
+    closeAllPopovers();
+    setChatStep(STEPS.INPUT);
+  };
 
   return (
     <Container ref={containerRef} top={coords.top}>
@@ -33,7 +38,7 @@ const AnswerBox = ({ coords, makeQuery }) => {
           <CloseButton
             shouldAllowMouseForwarding={false}
             disappearing={true}
-            onClick={closeAllPopovers}
+            onClick={handleCloseButton}
           >
             <X size={10} />
           </CloseButton>
