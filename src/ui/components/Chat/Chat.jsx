@@ -10,6 +10,7 @@ import { openaiChatStream } from "../../ai-utils/openai";
 import StepRenderer from "./StepRenderer";
 import { STEPS } from "../../atoms/chatAtom";
 import { useAbortController } from "../../hooks/useAbortController";
+import { electronAPI } from "../../utils";
 
 const getNextStep = (currentStep) => {
   switch (currentStep) {
@@ -49,7 +50,7 @@ const Chat = () => {
         else setChatStep((prev) => getNextStep(prev));
       }
     };
-    window.electronAPI.onKeyBoardShortcut(handleShortcut);
+    electronAPI.onKeyBoardShortcut(handleShortcut);
   }, []);
 
   const handleButtonClick = () => {
