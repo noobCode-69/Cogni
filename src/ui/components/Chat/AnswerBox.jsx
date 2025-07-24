@@ -108,16 +108,16 @@ const Header = styled.div`
 `;
 
 const LastQuestion = styled.div`
-  background-color: rgba(74, 74, 74, 0.3);
+  background-color: #3b3b3d;
   border-radius: 4px;
   padding: 5px 10px;
 `;
 
 const CloseButton = styled(IconButton)`
-  background-color: rgba(74, 74, 74, 0.3);
+  background-color: #3b3b3d;
   border-radius: 50%;
   &:hover {
-    background-color: rgba(74, 74, 74, 0.3);
+    background-color: #3b3b3d;
   }
 `;
 

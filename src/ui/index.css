@@ -158,11 +158,11 @@ select:focus {
 
 .wmde-markdown pre .copied {
   width: 10px;
-  background-color: rgba(74, 74, 74, 0.3) !important;
+  background-color: #3b3b3d !important;
   color: white !important;
 }
 
 .wmde-markdown pre .copied:hover {
-  background-color: rgba(74, 74, 74, 0.3) !important;
+  background-color: #3b3b3d !important;
   color: white !important;
 }
