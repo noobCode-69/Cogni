@@ -1,9 +1,9 @@
-import Button from "../primitives/Button";
 import styled from "styled-components";
 import Menu from "./Menu";
 import Chat from "./Chat/Chat";
 import { useTrayPosition } from "../hooks/useTrayPosition";
 import Hide from "./Hide";
+import API from "./API";
 
 const Tray = () => {
   const { trayPosition, setTrayPosition } = useTrayPosition();
@@ -18,11 +18,7 @@ const Tray = () => {
 
   return (
     <FixedCenteredContainer>
-      <SolidButton>
-        <ButtonContent>
-          <span>API Key</span>
-        </ButtonContent>
-      </SolidButton>
+      <API />
       <Chat />
       <Hide />
       <Menu moveTray={moveTray} />
@@ -44,20 +40,6 @@ const FixedCenteredContainer = styled.div`
   align-items: stretch;
   justify-content: center;
   gap: 4px;
-`;
-
-const ButtonContent = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-const SolidButton = styled(Button)`
-  background-color: rgba(19, 115, 230, 0.7);
-
-  &:hover {
-    background-color: rgba(0, 86, 179, 0.7);
-  }
 `;
 
 export default Tray;
