@@ -11,6 +11,7 @@ import StepRenderer from "./StepRenderer";
 import { STEPS } from "../../atoms/chatAtom";
 import { useAbortController } from "../../hooks/useAbortController";
 import { electronAPI } from "../../utils";
+import { useAPIKey } from "../../hooks/useApiKey";
 
 const getNextStep = (currentStep) => {
   switch (currentStep) {
@@ -32,6 +33,7 @@ const Chat = () => {
   const [coords, setCoords] = useState({ top: 0 });
   const { setAnswer, setIsLoading, setError, setLastQuery } = useAnswer();
   const { createNewController, reset } = useAbortController();
+  const { apiKey } = useAPIKey();
 
   useEffect(() => {
     if (isOpen && buttonRef.current) {
@@ -69,6 +71,7 @@ const Chat = () => {
     setAnswer("");
     setError(null);
     openaiChatStream({
+      apiKey,
       userMessage: query,
       signal: controller.signal,
       onChunk: (chunk) => setAnswer((prev) => prev + chunk),

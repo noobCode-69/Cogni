@@ -5,10 +5,13 @@ import styled from "styled-components";
 import { usePopover } from "../hooks/usePopover";
 import { CornerDownLeft } from "lucide-react";
 import { useMouseForwarding } from "../hooks/useMouseForwarding";
+import { useAPIKey } from "../hooks/useApiKey";
+import { electronAPI } from "../utils";
 
-const APIInput = ({ coords }) => {
+const APIInput = ({ coords, toggle }) => {
   const containerRef = useMouseForwarding();
   const inputRef = useRef(null);
+  const { apiKey, setAPIKey } = useAPIKey();
 
   useEffect(() => {
     const input = inputRef.current;
@@ -18,16 +21,25 @@ const APIInput = ({ coords }) => {
     return () => input?.removeEventListener("keydown", keyHandler);
   }, []);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    await electronAPI.saveApiKey(apiKey);
+    toggle();
+  };
 
   return (
     <Container ref={containerRef} top={coords.top}>
-      <StyledInput ref={inputRef} placeholder="OpenAI API key" />
+      <StyledInput
+        ref={inputRef}
+        value={apiKey}
+        onChange={(e) => setAPIKey(e.target.value)}
+        placeholder="OpenAI API key"
+        spellCheck={false}
+      />
       <InputActions>
         <SubmitButton
           shouldAllowMouseForwarding={false}
           disappearing={true}
-          onClick={() => {}}
+          onClick={handleSubmit}
         >
           <span>Save</span>
           <KeyIcon>
@@ -63,7 +75,7 @@ const API = () => {
 
       {isOpen &&
         ReactDOM.createPortal(
-          <APIInput coords={coords} />,
+          <APIInput coords={coords} toggle={toggle} />,
           document.getElementById("root-portal")
         )}
     </>

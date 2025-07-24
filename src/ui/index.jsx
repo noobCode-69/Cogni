@@ -5,10 +5,12 @@ import { closeAllPopovers } from "./atoms/popoverAtom";
 import { useChat } from "./hooks/useChat";
 import { usePopover } from "./hooks/usePopover";
 import { STEPS } from "./atoms/chatAtom";
+import { useAPIKey } from "./hooks/useApiKey";
 
 const App = () => {
   const { chatStepRef } = useChat();
   const { openPopoverIdRef } = usePopover();
+  const { setAPIKey } = useAPIKey();
   useEffect(() => {
     const handleBlur = (data) => {
       const { blurred } = data;
@@ -24,6 +26,14 @@ const App = () => {
     };
 
     electronAPI.onWindowBlur(handleBlur);
+  }, []);
+
+  useEffect(() => {
+    const loadKey = async () => {
+      const savedKey = await electronAPI.loadApiKey();
+      setAPIKey(savedKey);
+    };
+    loadKey();
   }, []);
 
   return <Tray />;

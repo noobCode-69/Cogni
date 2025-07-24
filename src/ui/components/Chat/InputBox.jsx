@@ -27,7 +27,11 @@ const InputBox = ({ coords, fixed = true, makeQuery }) => {
 
   return (
     <Container ref={containerRef} fixed={fixed} top={coords.top}>
-      <StyledInput ref={inputRef} placeholder="Ask about your screen" />
+      <StyledInput
+        ref={inputRef}
+        placeholder="Ask about your screen"
+        spellCheck={false}
+      />
       <InputActions>
         <SubmitButton
           shouldAllowMouseForwarding={false}

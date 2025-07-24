@@ -2,11 +2,6 @@ import { streamText } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { electronAPI } from "../utils";
 
-const openai = createOpenAI({
-  apiKey:
-    "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",
-});
-
 const systemPrompt = `
 <core_identity>
 You are an assistant called Cogni, developed and created by Cogni, whose sole purpose is to analyze and solve problems asked by the user or shown on the screen. Your responses must be specific, accurate, and actionable.
@@ -108,7 +103,11 @@ export async function openaiChatStream({
   onFinish,
   onError,
   signal,
+  apiKey,
 }) {
+  const openai = createOpenAI({
+    apiKey,
+  });
   const messages = [{ role: "system", content: systemPrompt }];
 
   const image = await takeScreenshot();

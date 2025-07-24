@@ -3,6 +3,8 @@ import { MainWindowManager } from "./mainWindowManager.js";
 import { ShortcutManager } from "./shortCutManager.js";
 import { EVENT_CONSTANTS } from "../renderUtils.js";
 import { globalShortcut } from "electron";
+import path from "path";
+import fs from "fs";
 
 export class AppManager {
   constructor() {
@@ -16,6 +18,10 @@ export class AppManager {
     this.mainWindowManager.createWindow(() => {
       this.shortcutManager.registerShortcuts();
     });
+  }
+
+  getApiKeyPath() {
+    return path.join(app.getPath("userData"), "apiKey.json");
   }
 
   registerAppEvents() {
@@ -67,6 +73,21 @@ export class AppManager {
 
       const screenSource = sources[0];
       return screenSource.thumbnail.toDataURL();
+    });
+
+    ipcMain.handle(EVENT_CONSTANTS.SAVE_API_KEY, async (_event, payload) => {
+      const apiKeyPath = this.getApiKeyPath();
+      fs.writeFileSync(apiKeyPath, JSON.stringify({ apiKey: payload }));
+      return true;
+    });
+
+    ipcMain.handle(EVENT_CONSTANTS.LOAD_API_KEY, async () => {
+      const apiKeyPath = this.getApiKeyPath();
+      if (fs.existsSync(apiKeyPath)) {
+        const content = fs.readFileSync(apiKeyPath);
+        return JSON.parse(content).apiKey;
+      }
+      return null;
     });
   }
 }
