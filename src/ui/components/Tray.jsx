@@ -1,19 +1,12 @@
 import Button from "../primitives/Button";
-import { Command } from "lucide-react";
 import styled from "styled-components";
-import { Slash } from "lucide-react";
-import { electronAPI } from "../utils";
-import { EVENT_CONSTANTS } from "../../electron/renderUtils";
 import Menu from "./Menu";
 import Chat from "./Chat/Chat";
 import { useTrayPosition } from "../hooks/useTrayPosition";
+import Hide from "./Hide";
 
 const Tray = () => {
   const { trayPosition, setTrayPosition } = useTrayPosition();
-
-  const toggleVisibility = () => {
-    electronAPI.sendRendererEvent(EVENT_CONSTANTS.TOGGLE_VISIBILITY);
-  };
 
   const moveTray = (direction) => {
     const root = document.getElementById("app-container");
@@ -31,23 +24,7 @@ const Tray = () => {
         </ButtonContent>
       </SolidButton>
       <Chat />
-      <Button onClick={toggleVisibility}>
-        <ButtonContent>
-          <span>Hide</span>
-          <ShortcutGroup>
-            <ShortcutKey>
-              <Command size={9} />
-            </ShortcutKey>
-            <ShortcutKey
-              style={{
-                transform: "rotateY(180deg)",
-              }}
-            >
-              <Slash size={9} />
-            </ShortcutKey>
-          </ShortcutGroup>
-        </ButtonContent>
-      </Button>
+      <Hide />
       <Menu moveTray={moveTray} />
     </FixedCenteredContainer>
   );
@@ -73,21 +50,6 @@ const ButtonContent = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-`;
-
-const ShortcutGroup = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-`;
-
-const ShortcutKey = styled.div`
-  background: #2a2a2a;
-  padding: 4px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const SolidButton = styled(Button)`
