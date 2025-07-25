@@ -70,6 +70,15 @@ const Chat = () => {
     setIsLoading(true);
     setAnswer("");
     setError(null);
+
+    if (!apiKey) {
+      setAnswer("");
+      setIsLoading(false);
+      setError("API key was not provided");
+      reset();
+      return;
+    }
+
     openaiChatStream({
       apiKey,
       userMessage: query,
