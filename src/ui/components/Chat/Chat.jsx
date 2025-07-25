@@ -64,7 +64,7 @@ const Chat = () => {
     }
   };
 
-  const makeQuery = (query) => {
+  const makeQuery = async (query) => {
     const controller = createNewController();
     setLastQuery(query);
     setIsLoading(true);
@@ -75,6 +75,16 @@ const Chat = () => {
       setAnswer("");
       setIsLoading(false);
       setError("API key was not provided");
+      reset();
+      return;
+    }
+
+    const hasPermission = await electronAPI.checkScreenPermission();
+    
+    if (!hasPermission) {
+      setAnswer("");
+      setIsLoading(false);
+      setError("Please provide screen capture permission to cogni");
       reset();
       return;
     }

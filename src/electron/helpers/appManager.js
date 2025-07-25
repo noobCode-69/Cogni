@@ -1,4 +1,10 @@
-import { app, ipcMain, desktopCapturer } from "electron";
+import {
+  app,
+  ipcMain,
+  desktopCapturer,
+  systemPreferences,
+  shell,
+} from "electron";
 import { MainWindowManager } from "./mainWindowManager.js";
 import { ShortcutManager } from "./shortCutManager.js";
 import { EVENT_CONSTANTS } from "../renderUtils.js";
@@ -88,6 +94,17 @@ export class AppManager {
         return JSON.parse(content).apiKey;
       }
       return null;
+    });
+
+    ipcMain.handle(EVENT_CONSTANTS.CHECK_SCREEN_PERMISSION, () => {
+      const status = systemPreferences.getMediaAccessStatus("screen");
+      if (status === "denied") {
+        shell.openExternal(
+          "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"
+        );
+        return false;
+      }
+      return true;
     });
   }
 }
