@@ -9,6 +9,7 @@ const Button = ({
   disappearing,
   children,
   className,
+  disabled = false,
 }) => {
   const ref = useMouseForwarding(disappearing);
 
@@ -24,6 +25,7 @@ const Button = ({
       onClick={handleClick}
       ref={shouldAllowMouseForwarding ? ref : null}
       className={className}
+      $disabled={disabled}
     >
       {children}
     </StyledButton>
@@ -39,9 +41,13 @@ const StyledButton = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
+  opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
+  pointer-events: ${({ $disabled }) => ($disabled ? "none" : "auto")};
 
   &:hover {
-    background-color: rgba(74, 74, 74, 0.3);
+    background-color: ${({ $disabled }) =>
+      $disabled ? "transparent" : "rgba(74, 74, 74, 0.3)"};
   }
 `;
 

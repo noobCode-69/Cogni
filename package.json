@@ -37,9 +37,11 @@
     "@uiw/react-markdown-preview": "^5.1.4",
     "@vitejs/plugin-react": "^4.6.0",
     "ai": "^4.3.19",
+    "dotenv": "^17.2.1",
     "electron-squirrel-startup": "^1.0.1",
     "jotai": "^2.12.5",
     "lucide-react": "^0.525.0",
+    "microsoft-cognitiveservices-speech-sdk": "^1.45.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "styled-components": "^6.1.19"

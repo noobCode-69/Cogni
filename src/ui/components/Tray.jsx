@@ -4,6 +4,7 @@ import Chat from "./Chat/Chat";
 import { useTrayPosition } from "../hooks/useTrayPosition";
 import Hide from "./Hide";
 import API from "./API";
+import Audio from "./Audio";
 
 const Tray = () => {
   const { trayPosition, setTrayPosition } = useTrayPosition();
@@ -19,6 +20,7 @@ const Tray = () => {
   return (
     <FixedCenteredContainer>
       <API />
+      <Audio />
       <Chat />
       <Hide />
       <Menu moveTray={moveTray} />

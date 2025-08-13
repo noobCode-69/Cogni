@@ -9,6 +9,7 @@ export const EVENT_CONSTANTS = {
   SAVE_API_KEY: "SAVE_API_KEY",
   LOAD_API_KEY: "LOAD_API_KEY",
   CHECK_SCREEN_PERMISSION: "CHECK_SCREEN_PERMISSION",
+  GET_STT_API_KEY: "GET_STT_API_KEY",
 };
 
 export const keyboardShortcuts = [
