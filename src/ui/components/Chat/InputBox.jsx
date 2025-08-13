@@ -22,7 +22,9 @@ const InputBox = ({ coords, fixed = true, makeQuery }) => {
   const handleSubmit = () => {
     const value = inputRef.current?.value || "";
     makeQuery(value);
-    setChatStep(STEPS.ANSWER);
+    if (value !== "reset") {
+      setChatStep(STEPS.ANSWER);
+    }
   };
 
   return (

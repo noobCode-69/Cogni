@@ -32,7 +32,7 @@ const Chat = () => {
   const buttonRef = useRef(null);
   const [coords, setCoords] = useState({ top: 0 });
   const { setAnswer, setIsLoading, setError, setLastQuery } = useAnswer();
-  const { createNewController, reset } = useAbortController();
+  const { createNewController, reset, abort } = useAbortController();
   const { apiKey } = useAPIKey();
 
   useEffect(() => {
@@ -65,6 +65,17 @@ const Chat = () => {
   };
 
   const makeQuery = async (query) => {
+    if (query === "reset") {
+      abort();
+      reset();
+      setAnswer("");
+      setIsLoading(false);
+      setError(null);
+      setLastQuery("");
+      setChatStep(STEPS.INPUT);
+      return;
+    }
+
     const controller = createNewController();
     setLastQuery(query);
     setIsLoading(true);
