@@ -12,6 +12,7 @@ import { STEPS } from "../../atoms/chatAtom";
 import { useAbortController } from "../../hooks/useAbortController";
 import { electronAPI } from "../../utils";
 import { useAPIKey } from "../../hooks/useApiKey";
+import { resetConversation } from "../../atoms/conversationHistoryAtom";
 
 const getNextStep = (currentStep) => {
   switch (currentStep) {
@@ -73,6 +74,7 @@ const Chat = () => {
       setError(null);
       setLastQuery("");
       setChatStep(STEPS.INPUT);
+      resetConversation();
       return;
     }
 
@@ -91,7 +93,7 @@ const Chat = () => {
     }
 
     const hasPermission = await electronAPI.checkScreenPermission();
-    
+
     if (!hasPermission) {
       setAnswer("");
       setIsLoading(false);
