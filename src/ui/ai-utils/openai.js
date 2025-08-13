@@ -127,6 +127,11 @@ export async function openaiChatStream({
   const { textStream, fullStream } = streamText({
     model: openai("gpt-4-turbo"),
     messages,
+    onError: () => {
+      onError?.(
+        "Error fetching data. Please verify your API key is correct and try the request again."
+      );
+    },
   });
 
   (async () => {
