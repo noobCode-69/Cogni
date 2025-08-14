@@ -7,7 +7,7 @@ import { useChat } from "../../hooks/useChat";
 import { STEPS } from "../../atoms/chatAtom";
 
 const InputBox = ({ coords, fixed = true, makeQuery }) => {
-  const { setChatStep, globalInputValue } = useChat();
+  const { setChatStep, globalInputValue, setGlobalInputValue } = useChat();
   const containerRef = useMouseForwarding();
   const inputRef = useRef(null);
 
@@ -31,6 +31,7 @@ const InputBox = ({ coords, fixed = true, makeQuery }) => {
     if (value !== "reset") {
       setChatStep(STEPS.ANSWER);
     }
+    setGlobalInputValue("");
   };
 
   return (

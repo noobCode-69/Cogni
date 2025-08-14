@@ -15,6 +15,14 @@ import { STEPS } from "../atoms/chatAtom";
 
 const AudioDisplay = ({ coords, streamingText }) => {
   const containerRef = useMouseForwarding();
+  const { setIsRecording } = useRecording();
+
+  useEffect(() => {
+    return () => {
+      setIsRecording(false);
+    };
+  }, []);
+
   return (
     <Container ref={containerRef} top={coords.top}>
       <DisplayContainer>
