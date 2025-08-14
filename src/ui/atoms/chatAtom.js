@@ -7,3 +7,4 @@ export const STEPS = {
 };
 
 export const chatStepAtom = atom(STEPS.INPUT);
+export const globalInputValueAtom = atom("");

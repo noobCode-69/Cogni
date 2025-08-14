@@ -7,7 +7,7 @@ import { useChat } from "../../hooks/useChat";
 import { STEPS } from "../../atoms/chatAtom";
 
 const InputBox = ({ coords, fixed = true, makeQuery }) => {
-  const { setChatStep } = useChat();
+  const { setChatStep, globalInputValue } = useChat();
   const containerRef = useMouseForwarding();
   const inputRef = useRef(null);
 
@@ -18,6 +18,12 @@ const InputBox = ({ coords, fixed = true, makeQuery }) => {
     input?.addEventListener("keydown", keyHandler);
     return () => input?.removeEventListener("keydown", keyHandler);
   }, []);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = globalInputValue || "";
+    }
+  }, [globalInputValue]);
 
   const handleSubmit = () => {
     const value = inputRef.current?.value || "";

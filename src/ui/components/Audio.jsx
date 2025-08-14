@@ -1,16 +1,51 @@
 import Button from "../primitives/Button";
 import styled from "styled-components";
 import { AudioLines } from "lucide-react";
+import ReactDOM from "react-dom";
 
 import * as speechsdk from "microsoft-cognitiveservices-speech-sdk";
 import { ResultReason } from "microsoft-cognitiveservices-speech-sdk";
 import { useRecording } from "../hooks/useRecording";
 import { electronAPI } from "../utils";
+import { useMouseForwarding } from "../hooks/useMouseForwarding";
+import { useEffect, useRef, useState } from "react";
+import { usePopover } from "../hooks/usePopover";
+import { useChat } from "../hooks/useChat";
+import { STEPS } from "../atoms/chatAtom";
+
+const AudioDisplay = ({ coords, streamingText }) => {
+  const containerRef = useMouseForwarding();
+  return (
+    <Container ref={containerRef} top={coords.top}>
+      <DisplayContainer>
+        {streamingText ? streamingText : "Listening..."}
+      </DisplayContainer>
+    </Container>
+  );
+};
 
 const Audio = () => {
   const { isRecording, setIsRecording } = useRecording();
+  const [streamingText, setStreamingText] = useState("");
+  const { setGlobalInputValue } = useChat();
+
+  const { isOpen, toggle } = usePopover(4);
+  const { toggle: toggleChatBox } = usePopover(2);
+  const [coords, setCoords] = useState({ top: 0 });
+  const { setChatStep } = useChat();
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const { bottom } = buttonRef.current.getBoundingClientRect();
+      setCoords({ top: bottom + 15 });
+    }
+  }, [isOpen]);
+
   const startRecording = async () => {
     if (isRecording) return;
+    toggle();
+    setStreamingText("");
     const STT_API_KEY = await electronAPI.getSttApiKey();
     setIsRecording(true);
 
@@ -28,16 +63,17 @@ const Audio = () => {
       );
 
       recognizer.recognizing = async (s, e) => {
-        console.log(e.result.text);
+        setStreamingText(e.result.text);
       };
 
       recognizer.recognizeOnceAsync((result) => {
         setIsRecording(false);
-        // call chat
         if (result.reason === ResultReason.RecognizedSpeech) {
           const text = result.text;
           if (text) {
-            console.log(text);
+            setGlobalInputValue(text);
+            setChatStep(STEPS.INPUT);
+            toggleChatBox();
           }
         }
       });
@@ -45,16 +81,60 @@ const Audio = () => {
   };
 
   return (
-    <SolidButton disabled={isRecording} onClick={startRecording}>
-      <ButtonContent>
-        <span>{isRecording ? "Listening" : "Listen"}</span>
-        <ShortcutGroup>
-          <AudioLines size={14} />
-        </ShortcutGroup>
-      </ButtonContent>
-    </SolidButton>
+    <>
+      <ButtonContainer ref={buttonRef}>
+        <SolidButton disabled={isRecording} onClick={startRecording}>
+          <ButtonContent>
+            <span>{isRecording ? "Listening" : "Listen"}</span>
+            <ShortcutGroup>
+              <AudioLines size={14} />
+            </ShortcutGroup>
+          </ButtonContent>
+        </SolidButton>
+      </ButtonContainer>
+      {isOpen &&
+        ReactDOM.createPortal(
+          <AudioDisplay coords={coords} streamingText={streamingText} />,
+          document.getElementById("root-portal")
+        )}
+    </>
   );
 };
+
+const Container = styled.div`
+  position: fixed;
+  top: ${({ top }) => top}px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 4px;
+  border-radius: 8px;
+  z-index: 9999;
+  border: 1px solid #3a3a3a;
+  display: flex;
+  align-items: center;
+  width: 600px;
+`;
+
+const DisplayContainer = styled.div`
+  flex-grow: 1;
+  background: transparent;
+  min-height: 20px;
+  border: none;
+  padding: 4px;
+  font-size: 0.75rem;
+  line-height: 18px;
+  color: white;
+  &::placeholder {
+    color: grey;
+    font-weight: semibold;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+`;
 
 const SolidButton = styled(Button)`
   background-color: rgba(74, 74, 74, 0.6);
