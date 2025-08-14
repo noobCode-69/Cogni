@@ -31,6 +31,12 @@ export const keyboardShortcuts = [
     },
   },
   {
+    accelerator: "Command+L",
+    action: "CMD_L",
+    sendToRenderer: true,
+    dynamic: true,
+  },
+  {
     accelerator: "Command+Enter",
     action: "CMD_ENTER",
     sendToRenderer: true,

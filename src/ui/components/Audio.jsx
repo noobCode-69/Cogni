@@ -42,6 +42,15 @@ const Audio = () => {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    const handleShortcut = (accelerator) => {
+      if (accelerator === "CMD_L") {
+        startRecording();
+      }
+    };
+    electronAPI.onKeyBoardShortcut(handleShortcut);
+  }, []);
+
   const startRecording = async () => {
     if (isRecording) return;
     toggle();
