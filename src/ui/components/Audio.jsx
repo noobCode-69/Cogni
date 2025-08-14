@@ -73,6 +73,7 @@ const Audio = () => {
       );
 
       speechConfig.speechRecognitionLanguage = "en-US";
+
       const audioConfig = speechsdk.AudioConfig.fromDefaultMicrophoneInput();
       const recognizer = new speechsdk.SpeechRecognizer(
         speechConfig,
@@ -90,6 +91,7 @@ const Audio = () => {
           if (text) {
             setGlobalInputValue(text);
             setChatStep(STEPS.INPUT);
+            toggle();
             toggleChatBox();
           }
         }
