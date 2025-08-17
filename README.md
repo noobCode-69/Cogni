@@ -1,70 +1,26 @@
-# 🧠 Cogni – Undetectable AI for Your macOS Screen
+# Cogni – Undetectable AI for macOS
 
-Cogni lets you **browse Invisible AI** right on your macOS desktop – totally incognito and completely **free**.
+Cogni lets you run a fully local AI interface on your macOS desktop — private, lightweight, and free.  
 
-No nags. No fees. No evidence. Just smooth, stealthy intelligence.
+No subscriptions. No data collection. No unnecessary noise.
 
----
 
-## 🚀 Why Cogni?
 
-### 💸 Better than Cluely
+## Why Cogni?
 
-Cluely? Cute. But Cogni is **local-first** and **free forever**.  
-No cloud fees, no data leaks, no "Oops, our server is down."
+### Local-First, Free Forever  
+Unlike cloud-based alternatives, Cogni runs entirely on your machine. That means no recurring fees, no server downtime, and no risk of data leaks.  
 
-### 🕵️ Incognito Mode
+### Invisible by Design  
+Cogni stays hidden during screen sharing, recordings, or virtual meetings. You can work without leaving visible traces.  
 
-Screen sharing with your boss? No worries.  
-Cogni won't show up in recordings, screenshots, or virtual meetings.  
 
-> \*Okay maybe not _legally_ reviewed yet, but hey 🤷‍♂️
+## Getting Started
 
----
-
-## 🛠️ How to Start
-
-1. Make sure you have Node.js installed. (If not: [Get Node.js](https://nodejs.org/))
-2. Run:
+1. Install [Node.js](https://nodejs.org/) if you don’t already have it.
+2. Rename the `.env.example` file to `.env`, then update any values as needed.  
+3. In your terminal, run:  
 
    ```bash
    npm install
    npm start
-   ```
-
-Boom. That’s it. No fluff.
-
----
-
-## 🍏 Why no macOS app?
-
-> I'm too broke to pay Apple $99/year to distribute this as an official app.  
-> So until someone gifts me a developer license (or a pizza), we're keeping it real with `npm start`.
-
----
-
-## 🧩 Features
-
-- ✅ 100% Local AI interface
-- ✅ Works while screen sharing
-- ✅ No tracking, no logs
-- ✅ Basically ghost mode for GPT
-
----
-
-## 🧪 Disclaimer
-
-This is a tool for productivity and research. Use responsibly.  
-If you use this to cheat on Zoom exams, may your Wi-Fi betray you.
-
----
-
-## 🫡 Support
-
-Star the repo ⭐  
-Share with your broke friends 🧑‍🤝‍🧑  
-Maybe someday we'll afford the Apple fee together 🙌
-
----
-
-Made with 🍜 and ☕ by someone who couldn't afford Copilot Pro.
